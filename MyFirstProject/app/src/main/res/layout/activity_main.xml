@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:text="USD TO CAD"
         android:textAlignment="center"
+        android:onClick="labelChange"
         android:textSize="24sp" />
 
     <TextView
@@ -32,8 +33,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:duplicateParentState="false"
-        android:text="Enter the amount in CAD"
         android:textAlignment="center"
+        android:text="Enter CAD Amount"
         android:textSize="24sp" />
 
     <EditText
