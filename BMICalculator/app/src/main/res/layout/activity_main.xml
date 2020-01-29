@@ -4,57 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFC107"
     android:orientation="vertical"
-    android:
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="81dp"
-        android:fontFamily="sans-serif-black"
-        android:paddingTop="12dp"
-        android:text="Currency Converter"
-        android:textAlignment="center"
-        android:textColor="@android:color/holo_orange_dark"
-        android:textSize="40sp"
-        android:textStyle="bold" />
-
-    <Switch
-        android:id="@+id/swU2C"
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="USD TO CAD"
+        android:text="BMI Calculator"
         android:textAlignment="center"
-        android:onClick="labelChange"
-        android:textSize="24sp" />
+        android:textColor="#2196F3"
+        android:textSize="32sp" />
 
     <TextView
-        android:id="@+id/tvPrompt"
+        android:id="@+id/tvWeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:duplicateParentState="false"
+        android:text="Weight"
         android:textAlignment="center"
-        android:text="Enter CAD Amount"
-        android:textSize="24sp" />
+        android:textColor="#00BCD4"
+        android:textSize="22sp" />
 
     <EditText
-        android:id="@+id/etAmount"
+        android:id="@+id/etWeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="AMOUNT"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:inputType="numberDecimal"/>
-    <Button
-        android:id="@+id/btConvert"
+        android:hint="Enter Weight"
+        android:inputType="numberDecimal"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/tvHeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Convert"
-        android:textColor="@android:color/holo_blue_light"
-        android:textSize="24sp"
-        android:onClick="convertButtonPressed"/>
+        android:text="Height"
+        android:textAlignment="center"
+        android:textColor="#00BCD4"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/etHeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter Height"
+        android:inputType="numberDecimal"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btnCalculate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#03A9F4"
+        android:onClick="onClickCalculate"
+        android:text="Calculate"
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/tvResult"
@@ -62,7 +68,6 @@
         android:layout_height="wrap_content"
         android:text="RESULT"
         android:textAlignment="center"
-        android:textColor="#CF0000"
+        android:textColor="#E91E63"
         android:textSize="28sp" />
-
 </LinearLayout>

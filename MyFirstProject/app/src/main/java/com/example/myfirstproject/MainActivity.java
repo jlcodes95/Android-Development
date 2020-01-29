@@ -33,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void convertButtonPressed(View view){
+        Toast t = Toast.makeText(this, "testing", Toast.LENGTH_SHORT);
         try{
+            t.show();
             //get data from edit text
-            TextView amtTextBox = (TextView) findViewById(R.id.etAmount);
+            TextView amtTextBox = findViewById(R.id.etAmount);
 
             //calculate
             double convertedAmt;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             //display result
             ((TextView) findViewById(R.id.tvResult)).setText("Converted " + targetCountry + " Amount is: $" + df.format(convertedAmt));
         }catch(Exception e){
-            Toast t = Toast.makeText(this, "Please Only enter numbers...", Toast.LENGTH_SHORT);
+            t.setText("Please enter an amount...");
             t.show();
         }
     }
