@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        TextView etName = (TextView) findViewById(R.id.tvWelcomeMsg);
+        etName.setText("Welcome " + bundle.getString("firstName") + " " + bundle.getString("lastName"));
     }
 
     public void onClickCalculate(View view){
@@ -63,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 cit = (grossSalary - 1900.00) * 0.25;
             }
-
             netSalary = grossSalary - cit;
 
             paySlipBundle.putDouble("grossSalary", grossSalary);
@@ -72,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
             paySlipIntent.putExtras(paySlipBundle);
             startActivity(paySlipIntent);
-
-
         }catch (Exception e){
             Toast t = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
             t.show();

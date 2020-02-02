@@ -10,6 +10,14 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tvWelcomeMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="30sp"
+        android:text=""/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Enter Name"
