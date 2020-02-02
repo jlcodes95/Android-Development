@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,9 +31,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //declaring user
-        USERS = new ArrayList<User>();
-        User userPeter = new User("peter", "0000", "4165551111");
-        USERS.add(userPeter);
+        if (USERS == null){
+            USERS = new ArrayList<User>();
+            User userPeter = new User("peter", "0000", "4165551111");
+            USERS.add(userPeter);
+        }
+        Log.d("TESTING", ""+USERS.size());
     }
 
     public void onClickAttemptLogin(View view){
@@ -63,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 //sign up
                 currentUser = handleSignup(username, password, phoneNumber);
             }
+            USERS.add(currentUser);
 
             //set intent and send bundle
             Intent mainIntent = new Intent(this, MainActivity.class);
