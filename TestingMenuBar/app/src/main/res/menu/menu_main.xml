@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/miSearch"
+        android:title="Search"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/miHeart"
+        android:title="Heart"
+        android:icon="@drawable/heart"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/miNewMessage"
+        android:title="New Message"/>
+
+    <item
+        android:id="@+id/miAccountProfile"
+        android:title="See Account Info"/>
+
+    <item
+        android:id="@+id/miContact"
+        android:title="Contact Us"/>
+</menu>
