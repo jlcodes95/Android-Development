@@ -3,26 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/miSearch"
-        android:title="Search"
-        android:icon="@drawable/ic_search_black_24dp"
-        app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/miHeart"
-        android:title="Heart"
-        android:icon="@drawable/heart"
-        app:showAsAction="ifRoom"/>
-
-    <item
         android:id="@+id/miNewMessage"
-        android:title="New Message"/>
+        android:icon="@drawable/compose"
+        android:title="New Message"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/miAccountProfile"
-        android:title="See Account Info"/>
+        android:icon="@drawable/account"
+        android:title="See Account Info"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/miContact"
         android:title="Contact Us"/>
+
+    <item
+        android:id="@+id/miHelp"
+        android:title="Help"/>
+
 </menu>

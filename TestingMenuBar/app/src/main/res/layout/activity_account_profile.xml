@@ -9,11 +9,12 @@
     tools:context=".AccountProfileActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+        android:id="@+id/tbAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        app:title="Account Profile"
         android:theme="?attr/actionBarTheme" />
 
     <TextView

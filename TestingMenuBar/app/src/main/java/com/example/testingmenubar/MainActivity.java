@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tbMain);
         setSupportActionBar(toolbar);
     }
 
@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.miNewMessage:
                 t = Toast.makeText(getApplicationContext(), "You clicked on Message", Toast.LENGTH_SHORT);
+                t.show();
+                return true;
+            case R.id.miHelp:
+                t = Toast.makeText(getApplicationContext(), "You clicked on Help", Toast.LENGTH_SHORT);
                 t.show();
                 return true;
         }

@@ -9,12 +9,12 @@
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/tbMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:title="@string/app_name"
+        app:title="Main"
         android:theme="?attr/actionBarTheme" />
 
     <TextView
