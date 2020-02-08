@@ -5,13 +5,17 @@
 package com.example.rydeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -38,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //toolbar
+        setSupportActionBar((Toolbar) findViewById(R.id.tbMain));
+
         //set spinner array values;
         FROM_OPTIONS.add(DEST_UNION);
         TO_OPTIONS.add(DEST_AIRPORT);
@@ -60,11 +67,33 @@ public class MainActivity extends AppCompatActivity {
         toSpinner.setAdapter(spinnerArrayAdapter);
 
         Bundle bundle = (getIntent().getExtras());
-        this.username = bundle.getString("username");
-        this.phoneNumber = bundle.getString("phoneNumber");
+        if (bundle != null){
+            this.username = bundle.getString("username");
+            this.phoneNumber = bundle.getString("phoneNumber");
+            TextView tvGreetings = (TextView) findViewById(R.id.tvGreeting);
+            tvGreetings.setText("Hello " + username + ".");
+        }
 
-        TextView tvGreetings = (TextView) findViewById(R.id.tvGreeting);
-        tvGreetings.setText("Hello " + username + ".");
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        Toast t = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+        switch(item.getItemId()){
+            case R.id.miContactUs:
+                t.setText("Contact Us!!");
+                t.show();
+                break;
+            case R.id.miHelp:
+                t.setText("Help!!");
+                t.show();
+                break;
+        }
+        return true;
     }
 
     public void onClickHandlePool(View view){

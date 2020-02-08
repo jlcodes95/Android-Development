@@ -4,12 +4,17 @@
  * ----------------------------------- */
 package com.example.rydeapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,6 +29,9 @@ public class LoginActivity extends AppCompatActivity {
     private static final String MSG_MISSING_PASSWORD = "Please type your password.";
     private static final String MSG_MISSING_PHONENUMBER= "Please type your phone number.";
 
+    private SharedPreferences spCurrentUser;
+
+    public static final String SP_CURRENT_USER = "currentUser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +39,28 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //declaring user
+        spCurrentUser = getSharedPreferences(SP_CURRENT_USER, Context.MODE_PRIVATE);
+
         if (USERS == null){
             USERS = new ArrayList<User>();
             User userPeter = new User("peter", "0000", "4165551111");
             USERS.add(userPeter);
         }
         Log.d("TESTING", ""+USERS.size());
+
+        String username = spCurrentUser.getString("username", "");
+        ((EditText) findViewById(R.id.etUsername)).setText(username);
+        ((EditText) findViewById(R.id.etPassword)).setText(spCurrentUser.getString("password", ""));
+        ((EditText) findViewById(R.id.etPhoneNumber)).setText(spCurrentUser.getString("phoneNumber", ""));
+        ((CheckBox) findViewById(R.id.cbRemember)).setChecked(!username.equals(""));
     }
 
     public void onClickAttemptLogin(View view){
         try{
-            EditText etUsername = (EditText) findViewById(R.id.etUsername);
-            EditText etPassword = (EditText) findViewById(R.id.etPassword);
-            EditText etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
+            EditText etUsername = findViewById(R.id.etUsername);
+            EditText etPassword = findViewById(R.id.etPassword);
+            EditText etPhoneNumber = findViewById(R.id.etPhoneNumber);
+            CheckBox cbRemember = findViewById(R.id.cbRemember);
 
             String username = etUsername.getText().toString();
             String password = etPassword.getText().toString();
@@ -66,8 +83,20 @@ public class LoginActivity extends AppCompatActivity {
             if (currentUser == null){
                 //sign up
                 currentUser = handleSignup(username, password, phoneNumber);
+                USERS.add(currentUser);
             }
-            USERS.add(currentUser);
+
+            //remember user?
+            SharedPreferences.Editor spEditor = spCurrentUser.edit();
+            if (cbRemember.isChecked()){
+                spEditor.putString("username", username);
+                spEditor.putString("password", password);
+                spEditor.putString("phoneNumber", phoneNumber);
+                spEditor.apply();
+            }else{
+                spEditor.clear();
+                spEditor.apply();
+            }
 
             //set intent and send bundle
             Intent mainIntent = new Intent(this, MainActivity.class);
@@ -81,8 +110,17 @@ public class LoginActivity extends AppCompatActivity {
 
         }catch(Exception e){
             resetPasswordAndPhoneFields();
-            Toast t = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
-            t.show();
+            AlertDialog.Builder popupBox = new AlertDialog.Builder(this);
+            popupBox.setTitle("Missing Fields!");
+            popupBox.setMessage(e.getMessage());
+            popupBox.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            popupBox.show();
+//            Toast t = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
+//            t.show();
         }
 
     }

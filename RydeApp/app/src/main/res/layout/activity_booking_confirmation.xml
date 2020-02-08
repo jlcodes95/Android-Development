@@ -5,11 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".BookingConfirmationActivity">
 
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbConfirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvThankYou"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,6 +28,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Your Ryde is coming."
@@ -29,6 +38,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvPhoneConfirmation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,6 +47,7 @@
         android:textSize="16sp" />
 
     <TextView
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
@@ -46,6 +57,7 @@
         android:text="Estimated Fare:"/>
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvEstimatedFee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,42 +68,49 @@
         android:text=""/>
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvFrom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="30dp"/>
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvTo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="30dp"/>
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvDistance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="30dp"/>
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvPPK"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="30dp"/>
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvBookingFee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="30dp"/>
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvServiceCharge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="30dp"/>
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tvDistanceCharge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

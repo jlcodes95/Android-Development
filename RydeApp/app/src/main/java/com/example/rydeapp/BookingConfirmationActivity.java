@@ -6,9 +6,11 @@
 package com.example.rydeapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +51,10 @@ public class BookingConfirmationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_confirmation);
+
+
+        setSupportActionBar((Toolbar) findViewById(R.id.tbConfirmation));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle bundle = getIntent().getExtras();
         TextView tvThankYou = (TextView) findViewById(R.id.tvThankYou);
