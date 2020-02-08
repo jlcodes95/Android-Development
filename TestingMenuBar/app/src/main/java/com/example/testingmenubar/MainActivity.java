@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean g(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){
         Log.d("MENU", ""+item.getTitle());
         Toast t;
         switch (item.getItemId()){
