@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context=".MovieListActivity">
+
+    <!-- @TODO: Put your toolbar control here -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_movie_list_screen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="Movies"/>
+
+
+<!--    &lt;!&ndash; Main view controls here &ndash;&gt;-->
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="List of Movies"-->
+<!--        android:textSize="36sp"-->
+<!--        android:textAlignment="center" />-->
+
+    <!-- not required for test - debug purposes only -->
+<!--    <TextView-->
+<!--        android:id="@+id/tvCurrentDate"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:text="Movie Details"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="16sp" />-->
+
+
+    <!-- these buttons are here to help make your testing/debugging more convenient -->
+    <!-- They are not part of the lab test requirements. -->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Movie Detail Screen"-->
+<!--        android:onClick="movieDetailButtonPressed"/>-->
+
+
+    <!-- list of movies goes here -->
+    <ListView
+        android:id="@+id/lvMovies"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    </ListView>
+
+
+
+
+</LinearLayout>

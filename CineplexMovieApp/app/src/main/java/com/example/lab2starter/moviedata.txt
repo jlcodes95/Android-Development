@@ -1,0 +1,24 @@
+
+Format of data is:
+- movie name
+- release date
+- genre
+
+
+
+Star Wars: The Rise of Skywalker
+2019-01-01
+Sci Fi and Fantasy
+
+Jumanji: The Next Level
+2020-02-08
+Action
+
+The LoveBirds
+2020-03-25
+Comedy
+
+Fast and Furious 9
+2020-04-17
+Action
+

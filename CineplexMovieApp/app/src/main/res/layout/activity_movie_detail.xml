@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context=".MovieDetailActivity">
+
+
+    <!-- @TODO: Put your toolbar control here -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_movie_detail_screen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="Movie Details"/>
+
+
+    <!-- Main view controls here -->
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:text="Movie Details"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="36sp" />-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="5dp"
+        android:text="Movie Name" />
+
+    <TextView
+        android:id="@+id/tvMovieDetailName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:layout_marginBottom="20dp"
+        android:text="Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:layout_marginBottom="5dp"
+        android:text="Genre" />
+
+    <TextView
+        android:id="@+id/tvMovieDetailGenre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:layout_marginBottom="20dp"
+        android:text="Comedy"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:layout_marginBottom="5dp"
+        android:text="Release Date" />
+
+    <TextView
+        android:id="@+id/tvMovieDetailReleaseDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:layout_marginBottom="20dp"
+        android:text="November 3, 2006"
+        android:textSize="20sp"/>
+
+</LinearLayout>
