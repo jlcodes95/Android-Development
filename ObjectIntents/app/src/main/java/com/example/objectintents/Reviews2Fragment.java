@@ -16,29 +16,31 @@ import android.widget.Toast;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReviewsFragment extends Fragment {
+public class Reviews2Fragment extends Fragment {
 
     View view;
+    Button button;
 
-    public ReviewsFragment() {
+
+    public Reviews2Fragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_reviews, container, false);
-        view.setBackgroundColor(Color.YELLOW);
+        view = inflater.inflate(R.layout.fragment_reviews2, container, false);
+        view.setBackgroundColor(Color.RED);
 
-        ((Button) view.findViewById(R.id.btnTesting)).setOnClickListener(new View.OnClickListener() {
+        button = view.findViewById(R.id.btnTesting2);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast t = Toast.makeText(getContext(), "REVIEWS 1", Toast.LENGTH_SHORT);
+                Toast t = Toast.makeText(getContext(), "REVIEWS 2", Toast.LENGTH_SHORT);
                 t.show();
             }
         });
+        // Inflate the layout for this fragment
         return view;
     }
 
