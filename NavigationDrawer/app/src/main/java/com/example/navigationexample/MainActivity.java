@@ -96,24 +96,18 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             FrameLayout f = (FrameLayout)  findViewById(R.id.main_content_abc);
             f.removeAllViews();
-
-
         } else if (id == R.id.nav_gallery) {
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_content_abc, new MessageFragment()).commit();
-
-
-        } else if (id == R.id.nav_slideshow) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_content_abc, new ChatFragment()).commit();
+        } else if (id == R.id.nav_slideshow) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_content_abc, new MessageFragment()).commit();
         } else if (id == R.id.nav_tools) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_content_abc, new ProfileFragment()).commit();
         } else if (id == R.id.nav_share) {
             Intent i = new Intent(this, ShareActivity.class);
             startActivity(i);
-
         } else if (id == R.id.nav_send) {
             Toast t = Toast.makeText(getApplicationContext(), "Send clicked!", Toast.LENGTH_SHORT);
             t.show();
