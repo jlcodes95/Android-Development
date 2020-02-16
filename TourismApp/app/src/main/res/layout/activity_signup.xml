@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorUIText"
+    tools:context=".activities.SignupActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/colorUIText"
+        app:title="Sign Up"
+        android:theme="?attr/actionBarTheme" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            style="@style/tvFormsTitle"
+            android:text="Sign Up"/>
+
+        <EditText
+            style="@style/etForms"
+            android:id="@+id/etUsername"
+            android:hint="Username" />
+
+        <EditText
+            style="@style/etForms"
+            android:id="@+id/etPassword"
+            android:inputType="textPassword"
+            android:hint="Password" />
+
+        <EditText
+            style="@style/etForms"
+            android:id="@+id/etPassword2"
+            android:inputType="textPassword"
+            android:hint="Confirm Password" />
+
+        <Button
+            style="@style/btnForms"
+            android:onClick="onClickSignup"
+            android:text="Sign Up"/>
+
+    </LinearLayout>
+
+</LinearLayout>

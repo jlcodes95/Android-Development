@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/colorUIText"
+    tools:context=".activities.LoginActivity">
+
+    <TextView
+        style="@style/tvFormsTitle"
+        android:text="Login"/>
+
+    <EditText
+        style="@style/etForms"
+        android:id="@+id/etUsername"
+        android:hint="Username" />
+
+    <EditText
+        style="@style/etForms"
+        android:id="@+id/etPassword"
+        android:inputType="textPassword"
+        android:hint="Password" />
+
+    <CheckBox
+        android:id="@+id/chkRemember"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:textColor="@color/colorLayoutText"
+        android:textColorHint="@color/colorLayoutText"
+        android:backgroundTint="@color/colorLayoutText"
+        android:buttonTint="@color/colorLayoutText"
+        android:text="Remember Me"/>
+
+    <Button
+        style="@style/btnForms"
+        android:onClick="onClickLogin"
+        android:text="Login"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/colorLayoutText"
+            android:text="Don't have an account?"/>
+
+        <TextView
+            android:onClick="onClickRedirectSignup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/colorLayoutText"
+            android:text="@string/sign_up_button"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>
