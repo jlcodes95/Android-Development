@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Menu items in your navigation drawer-->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:checked="true"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_donut_list"
+            android:icon="@drawable/list"
+            android:title="Product List" />
+        <item
+            android:id="@+id/nav_faq"
+            android:icon="@drawable/help"
+            android:title="FAQ" />
+        <item
+            android:id="@+id/nav_contact_us"
+            android:icon="@drawable/telephone"
+            android:title="Contact Us" />
+    </group>
+</menu>

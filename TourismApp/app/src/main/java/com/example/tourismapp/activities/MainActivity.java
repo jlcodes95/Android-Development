@@ -6,9 +6,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.example.tourismapp.R;
 import com.google.android.material.navigation.NavigationView;
@@ -48,6 +50,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        if (id == R.id.nav_logout) {
+            Log.d("NAV", "logout");
+//            // Handle the camera action
+//            FrameLayout f = (FrameLayout)  findViewById(R.id.main_content);
+//            f.removeAllViews();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 //        if (id == R.id.nav_home) {
 //            Log.d("NAV", "home");
 //            // Handle the camera action
