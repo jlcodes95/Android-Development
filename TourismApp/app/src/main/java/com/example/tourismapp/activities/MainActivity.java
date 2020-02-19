@@ -1,5 +1,6 @@
 package com.example.tourismapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,10 +14,14 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.tourismapp.R;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
+
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.tbMain);
         setSupportActionBar(toolbar);
 
+        //navigation drawer
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -32,6 +38,17 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        //bottom navigation bar
+        bottomNavigationView = findViewById(R.id.bnvMain);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                return onBottomNavigationItemSelected(menuItem);
+            }
+        });
+
     }
 
     @Override
@@ -79,6 +96,11 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private boolean onBottomNavigationItemSelected(MenuItem menuItem){
+
         return true;
     }
 }

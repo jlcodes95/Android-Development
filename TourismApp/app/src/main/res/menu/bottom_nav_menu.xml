@@ -2,14 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/miOlympics"
-        android:title="Olympics" />
+        android:id="@+id/miHome"
+        android:title="Home"
+        android:icon="@drawable/icon_home"
+        android:checked="true"/>
 
     <item
-        android:id="@+id/miHome"
-        android:title="Home"/>
+        android:id="@+id/miOlympics"
+        android:title="Olympics"
+        android:icon="@drawable/icon_medal"
+        android:checked="false" />
 
     <item
         android:id="@+id/miAttractions"
-        android:title="Attractions"/>
+        android:title="Attractions"
+        android:icon="@drawable/icon_ferris_wheels"
+        android:checked="false"/>
+=
 </menu>
