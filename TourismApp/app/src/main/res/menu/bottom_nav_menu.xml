@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/miHome"
+        android:id="@+id/b_nav_home"
         android:title="Home"
         android:icon="@drawable/icon_home"
         android:checked="true"/>
 
     <item
-        android:id="@+id/miOlympics"
+        android:id="@+id/b_nav_olympics"
         android:title="Olympics"
         android:icon="@drawable/icon_medal"
         android:checked="false" />
 
     <item
-        android:id="@+id/miAttractions"
+        android:id="@+id/b_nav_attractions"
         android:title="Attractions"
         android:icon="@drawable/icon_ferris_wheels"
         android:checked="false"/>

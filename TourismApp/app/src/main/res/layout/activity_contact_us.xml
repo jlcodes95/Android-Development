@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    tools:context=".activities.ContactUsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbContactUs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="Contact Us"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="For any inquiries, you can choose one of the options below to contact us."
+        android:textAlignment="center"
+        android:textColor="@color/colorLayoutText"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Give us a call"
+        android:textColor="@color/colorLayoutText"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/onClickOpenCall"
+        android:onClick="onClickOpenCall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        style="@style/btnForms"
+        android:text="Call"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:text="Send us a text"
+        android:textColor="@color/colorLayoutText"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/onClickOpenSMS"
+        android:onClick="onClickOpenSMS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        style="@style/btnForms"
+        android:text="SMS"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:text="Send us an email"
+        android:textColor="@color/colorLayoutText"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/onClickOpenEmail"
+        android:onClick="onClickOpenEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        style="@style/btnForms"
+        android:text="Email"/>
+
+</LinearLayout>

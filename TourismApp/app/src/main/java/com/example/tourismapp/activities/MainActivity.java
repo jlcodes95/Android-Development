@@ -10,10 +10,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.tourismapp.R;
+import com.example.tourismapp.fragments.AttractionsFragment;
+import com.example.tourismapp.fragments.HomeFragment;
+import com.example.tourismapp.fragments.OlympicsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -22,6 +26,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     BottomNavigationView bottomNavigationView;
+    private int currentFragmentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,44 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.miSearch:
+                handleSearchClick();
+                break;
+            case R.id.miFavourite:
+                handleFavouriteClick();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        switch (currentFragmentId){
+            case R.id.b_nav_olympics:
+                (menu.findItem(R.id.miSearch)).setVisible(true);
+                (menu.findItem(R.id.miFavourite)).setVisible(false);
+                break;
+            case R.id.b_nav_attractions:
+                (menu.findItem(R.id.miSearch)).setVisible(false);
+                (menu.findItem(R.id.miFavourite)).setVisible(true);
+                break;
+            default:
+                (menu.findItem(R.id.miSearch)).setVisible(false);
+                (menu.findItem(R.id.miFavourite)).setVisible(false);
+                break;
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -65,34 +108,27 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         Log.d("NAV", "item selected");
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_logout) {
-            Log.d("NAV", "logout");
-//            // Handle the camera action
-//            FrameLayout f = (FrameLayout)  findViewById(R.id.main_content);
-//            f.removeAllViews();
-            startActivity(new Intent(this, LoginActivity.class));
+        switch(item.getItemId()){
+            case R.id.nav_logout:
+                Log.d("NAV", "logout");
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
+            case R.id.nav_contact_us:
+                //handle contact us
+                Log.d("NAV", "logout");
+                startActivity(new Intent(this, ContactUsActivity.class));
+                break;
+            case R.id.nav_faq:
+                //handle faq
+                Log.d("NAV", "logout");
+                startActivity(new Intent(this, FAQActivity.class));
+                break;
+            case R.id.nav_settings:
+                //handle settings
+                Log.d("NAV", "logout");
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
         }
-//        if (id == R.id.nav_home) {
-//            Log.d("NAV", "home");
-//            // Handle the camera action
-//            FrameLayout f = (FrameLayout)  findViewById(R.id.main_content);
-//            f.removeAllViews();
-//        } else
-//        if (id == R.id.nav_add) {
-//            Log.d("NAV", "ADD");
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.main_content, new AddFragment()).commit();
-//        } else if (id == R.id.nav_list) {
-//            Log.d("NAV", "LIST");
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.main_content, new ListFragment()).commit();
-//        } else if (id == R.id.nav_update) {
-//            Log.d("NAV", "UPDATE");
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.main_content, new UpdateFragment()).commit();
-//        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -100,7 +136,34 @@ public class MainActivity extends AppCompatActivity
     }
 
     private boolean onBottomNavigationItemSelected(MenuItem menuItem){
-
+        switch(menuItem.getItemId()){
+            case R.id.b_nav_home:
+                getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_content, new HomeFragment()).commit();
+                currentFragmentId = R.id.b_nav_home;
+                invalidateOptionsMenu();
+                break;
+            case R.id.b_nav_olympics:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content, new OlympicsFragment()).commit();
+                currentFragmentId = R.id.b_nav_olympics;
+                invalidateOptionsMenu();
+                break;
+            case R.id.b_nav_attractions:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content, new AttractionsFragment()).commit();
+                currentFragmentId = R.id.b_nav_attractions;
+                invalidateOptionsMenu();
+                break;
+        }
         return true;
+    }
+
+    private void handleSearchClick(){
+        //show date selection dialog8
+    }
+
+    private void handleFavouriteClick(){
+
     }
 }

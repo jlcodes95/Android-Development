@@ -3,6 +3,7 @@
     <color name="colorPrimary">#990000</color>
     <color name="colorPrimarySelected">#FFFFFF</color>
     <color name="colorPrimaryUnselected">#FF9393</color>
+    <color name="colorBackground">#FFFFFF</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#BB0000</color>
     <color name="colorUIText">#FFFFFF</color>
