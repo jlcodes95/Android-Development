@@ -1,11 +1,8 @@
 package com.example.tourismapp.components;
 
-import android.media.Image;
-
 import org.jetbrains.annotations.NotNull;
 
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "attractions")
@@ -18,8 +15,8 @@ public class Attraction {
     private String address;
     @NotNull
     private String description;
-//    private Image
 
+    private String imagePath;
 
     public int getId() {
         return id;
@@ -54,5 +51,20 @@ public class Attraction {
 
     public void setDescription(@NotNull String description) {
         this.description = description;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getShortenedDescription(){
+        if (description.length() > 65){
+            return  description.substring(0, 65) + "...";
+        }
+        return description;
     }
 }

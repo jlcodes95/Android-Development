@@ -24,4 +24,7 @@ public interface AttractionDAO {
 
     @Query("SELECT * FROM attractions")
     public List<Attraction> getAttractionList();
+
+    @Query("DELETE FROM attractions")
+    public void deleteAttractions();
 }

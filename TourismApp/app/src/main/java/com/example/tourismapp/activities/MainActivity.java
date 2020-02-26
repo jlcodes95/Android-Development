@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +14,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 
 import com.example.tourismapp.R;
+import com.example.tourismapp.components.Attraction;
+import com.example.tourismapp.components.AttractionListAdapter;
+import com.example.tourismapp.components.TouristDatabase;
 import com.example.tourismapp.fragments.AttractionsFragment;
 import com.example.tourismapp.fragments.HomeFragment;
 import com.example.tourismapp.fragments.OlympicsFragment;
@@ -22,11 +27,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     BottomNavigationView bottomNavigationView;
     private int currentFragmentId;
+    public static TouristDatabase db;
+    private static final boolean INIT_DB = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,11 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //initialize database
+        db = Room.databaseBuilder(getApplicationContext(),
+                TouristDatabase.class, "usersDatabase").allowMainThreadQueries().build();
+        //init initial data
+        initAttractionsData();
     }
 
     @Override
@@ -68,9 +82,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.miSearch:
                 handleSearchClick();
                 break;
-            case R.id.miFavourite:
-                handleFavouriteClick();
-                break;
         }
         return true;
     }
@@ -80,15 +91,9 @@ public class MainActivity extends AppCompatActivity
         switch (currentFragmentId){
             case R.id.b_nav_olympics:
                 (menu.findItem(R.id.miSearch)).setVisible(true);
-                (menu.findItem(R.id.miFavourite)).setVisible(false);
-                break;
-            case R.id.b_nav_attractions:
-                (menu.findItem(R.id.miSearch)).setVisible(false);
-                (menu.findItem(R.id.miFavourite)).setVisible(true);
                 break;
             default:
                 (menu.findItem(R.id.miSearch)).setVisible(false);
-                (menu.findItem(R.id.miFavourite)).setVisible(false);
                 break;
         }
         return super.onPrepareOptionsMenu(menu);
@@ -164,6 +169,55 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void handleFavouriteClick(){
+        //add to favourite
+    }
 
+    /**
+     * used to initialize attractions for testing
+     */
+    private void initAttractionsData(){
+        //attraction empty
+        if (INIT_DB){
+            db.attractionDAO().deleteAttractions();
+            Log.d("INIT_DB", "initializing");
+            Attraction a1 = new Attraction();
+            a1.setName("Tokyo Tower");
+            a1.setAddress("4 Chome-2-8 Shibakoen, Minato City, Tokyo 105-0011, Japan");
+            a1.setDescription("Tokyo Tower is a communications and observation tower in the Shiba-koen district of Minato, Tokyo, Japan. At 332.9 meters, it is the second-tallest structure in Japan. The structure is an Eiffel Tower-inspired lattice tower that is painted white and international orange to comply with air safety regulations.");
+            a1.setImagePath("img_tokyo_tower");
+            db.attractionDAO().addAttraction(a1);
+            Attraction a2 = new Attraction();
+            a2.setName("Sky Tree");
+            a2.setAddress("1 Chome-1-2 Oshiage, Sumida City, Tokyo 131-0045, Japan");
+            a2.setDescription("Tokyo Skytree is a broadcasting and observation tower in Sumida, Tokyo. It became the tallest structure in Japan in 2010 and reached its full height of 634.0 metres in March 2011, making it the tallest tower in the world, displacing the Canton Tower,[4][5] and the second tallest structure in the world after the Burj Khalifa (829.8 m/2,722 ft).");
+            a2.setImagePath("img_sky_tree");
+            db.attractionDAO().addAttraction(a2);
+            Attraction a3 = new Attraction();
+            a3.setName("Akihabara");
+            a3.setAddress("Akihabara, Tokyo, Japan");
+            a3.setDescription("Akihabara is a buzzing shopping hub famed for its electronics retailers, ranging from tiny stalls to vast department stores like Yodobashi Multimedia Akiba. Venues specializing in manga, anime, and video games include Tokyo Anime Center, for exhibits and souvenirs, and Radio Kaikan with 10 floors of toys, trading cards, and collectibles. Staff dressed as maids or butlers serve tea and desserts at nearby maid cafes.");
+            a3.setImagePath("img_akihabara");
+            db.attractionDAO().addAttraction(a3);
+            Attraction a4 = new Attraction();
+            a4.setName("Life Sized Gundam Statue");
+            a4.setAddress("1, Aomi, Koto City, 〒135-0064 Tokyo, Japan");
+            a4.setDescription("Giant white statue of cult sci-fi novel & anime character, with nighttime music & lights.");
+            a4.setImagePath("img_unicorn_gundam_statue");
+            db.attractionDAO().addAttraction(a4);
+            Attraction a5 = new Attraction();
+            a5.setName("Sensō-ji");
+            a5.setAddress("2 Chome-3-1 Asakusa, Taito City, Tokyo 111-0032, Japan");
+            a5.setDescription("Sensō-ji is an ancient Buddhist temple located in Asakusa, Tokyo, Japan. It is Tokyo's oldest temple, and one of its most significant. Formerly associated with the Tendai sect of Buddhism, it became independent after World War II.");
+            a5.setImagePath("img_senso_ji");
+            db.attractionDAO().addAttraction(a5);
+            Attraction a6 = new Attraction();
+            a6.setName("Meiji Jingu");
+            a6.setAddress("1-1 Yoyogikamizonocho, Shibuya City, Tokyo 151-8557, Japan");
+            a6.setDescription("Meiji Shrine, located in Shibuya, Tokyo, is the Shinto shrine that is dedicated to the deified spirits of Emperor Meiji and his wife, Empress Shōken. The shrine does not contain the emperor's grave, which is located at Fushimi-momoyama, south of Kyoto.");
+            a6.setImagePath("img_meiji_jingu");
+            db.attractionDAO().addAttraction(a6);
+
+        }
+        Log.d("INIT_DB", ""+db.attractionDAO().getAttractionList().size());
     }
 }
