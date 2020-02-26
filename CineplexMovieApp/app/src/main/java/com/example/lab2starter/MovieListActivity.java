@@ -118,18 +118,18 @@ public class MovieListActivity extends AppCompatActivity {
         );
         movieListView.setAdapter(adapter);
         movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-             @Override
-             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                 Movie m = (Movie) movieListView.getItemAtPosition(position);
-                 Intent intent = new Intent(MovieListActivity.this, MovieDetailActivity.class);
-                 Bundle bundle = new Bundle();
-                 bundle.putString("name", m.getName());
-                 bundle.putString("genre", m.getGenre());
-                 bundle.putString("releaseDate", m.getReleaseDate());
-                 intent.putExtras(bundle);
-                 startActivity(intent);
-             }
-         });
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Movie m = (Movie) movieListView.getItemAtPosition(position);
+                Intent intent = new Intent(MovieListActivity.this, MovieDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", m.getName());
+                bundle.putString("genre", m.getGenre());
+                bundle.putString("releaseDate", m.getReleaseDate());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
         // HINT: If you want to segue to another screen inside an onClick, you need code like this:
 //        Intent i = new Intent(MovieListActivity.this, MovieDetailActivity.class);
