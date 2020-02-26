@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +24,7 @@ import com.example.tourismapp.components.Attraction;
 import com.example.tourismapp.components.AttractionListAdapter;
 import com.example.tourismapp.components.TouristDatabase;
 import com.example.tourismapp.fragments.AttractionsFragment;
+import com.example.tourismapp.fragments.DatePickerFragment;
 import com.example.tourismapp.fragments.HomeFragment;
 import com.example.tourismapp.fragments.OlympicsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -34,6 +38,9 @@ public class MainActivity extends AppCompatActivity
 
     BottomNavigationView bottomNavigationView;
     private int currentFragmentId;
+
+    public static SharedPreferences sp;
+    public static final String SP_NAME = "savedUserCredentials";
     public static TouristDatabase db;
     private static final boolean INIT_DB = true;
 
@@ -68,6 +75,8 @@ public class MainActivity extends AppCompatActivity
                 TouristDatabase.class, "usersDatabase").allowMainThreadQueries().build();
         //init initial data
         initAttractionsData();
+
+        sp = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -165,11 +174,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void handleSearchClick(){
-        //show date selection dialog8
+        //show date selection dialog
+        Log.d("DATE_PICKER", "working");
+        DialogFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    private void handleFavouriteClick(){
-        //add to favourite
+    public void onDatePickerResultSet(int year, int month, int day){
+        Log.d("DATE_PICKER", String.format("The date is %02d/%02d/%02d", year, month, day));
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_content, new OlympicsFragment(String.format("%02d%02d%02d", year, month, day))).commit();
+        currentFragmentId = R.id.b_nav_olympics;
+        invalidateOptionsMenu();
     }
 
     /**
@@ -200,7 +216,7 @@ public class MainActivity extends AppCompatActivity
             db.attractionDAO().addAttraction(a3);
             Attraction a4 = new Attraction();
             a4.setName("Life Sized Gundam Statue");
-            a4.setAddress("1, Aomi, Koto City, 〒135-0064 Tokyo, Japan");
+            a4.setAddress("1, Aomi, Koto City, Tokyo 135-0064, Japan");
             a4.setDescription("Giant white statue of cult sci-fi novel & anime character, with nighttime music & lights.");
             a4.setImagePath("img_unicorn_gundam_statue");
             db.attractionDAO().addAttraction(a4);
@@ -216,7 +232,12 @@ public class MainActivity extends AppCompatActivity
             a6.setDescription("Meiji Shrine, located in Shibuya, Tokyo, is the Shinto shrine that is dedicated to the deified spirits of Emperor Meiji and his wife, Empress Shōken. The shrine does not contain the emperor's grave, which is located at Fushimi-momoyama, south of Kyoto.");
             a6.setImagePath("img_meiji_jingu");
             db.attractionDAO().addAttraction(a6);
-
+            Attraction a7 = new Attraction();
+            a7.setName("Ueno Onshi Park");
+            a7.setAddress("Uenokoen, Taito City, Tokyo 110-0007, Japan");
+            a7.setDescription("Ueno Park is a spacious public park in the Ueno district of Taitō, Tokyo, Japan. The park was established in 1873 on lands formerly belonging to the temple of Kan'ei-ji.");
+            a7.setImagePath("img_ueno_onshi_park");
+            db.attractionDAO().addAttraction(a7);
         }
         Log.d("INIT_DB", ""+db.attractionDAO().getAttractionList().size());
     }

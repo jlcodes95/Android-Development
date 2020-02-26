@@ -5,8 +5,10 @@ import org.jetbrains.annotations.NotNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "attractions")
-public class Attraction {
+public class Attraction implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @NotNull

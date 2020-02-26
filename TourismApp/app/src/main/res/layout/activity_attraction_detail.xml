@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    tools:context=".activities.AttractionDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbAttractionDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <ImageView
+        android:id="@+id/ivAttraction"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_tokyo_tower"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorLayoutText"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:text="Tokyo Tower"/>
+
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorLayoutText"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        android:text="CTO at Marvel Prototyping Currently in London UK"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:layout_gravity="center"
+        android:theme="@style/RatingBar"/>
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorLayoutText"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel enim nisl. Morbi a congue nisl, in mollis dui. Curabitur enim purus, aliquet ut ex eget, tristique lacinia felis. Praesent nec ante non tortor fermentum mollis. Proin eget arcu sit amet ipsum dapibus mattis. Vestibulum eu dolor at nibh porttitor faucibus at vel erat. Nulla varius convallis ipsum quis euismod. Nunc venenatis ullamcorper sem in lobortis. In convallis a tortor vel tincidunt. Proin at libero ultricies, vestibulum est vel, ultrices augue. Ut in convallis ante. Donec consequat fringilla imperdiet. In scelerisque nulla quis sodales sagittis. Pellentesque luctus aliquet nisi, eu dignissim metus bibendum eu. In iaculis in eros ornare posuere."/>
+
+
+
+</LinearLayout>
