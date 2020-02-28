@@ -23,7 +23,9 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     private SharedPreferences sp;
-    public static final String SP_NAME = "savedUserCredentials";
+    private SharedPreferences spa;
+    private static final String SP_NAME = "savedUserCredentials";
+    private static final String SP_APP_NAME = "currentSessionData";
     public static TouristDatabase db;
     private static final String ERR_MSG_EMPTY_USERNAME = "Username cannot be empty";
     private static final String ERR_MSG_EMPTY_PASSWORD = "Password cannot be empty";
@@ -41,6 +43,11 @@ public class LoginActivity extends AppCompatActivity {
 
         //initialize sharedPreference
         sp = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        //spa for use within app only, if on login screen, clear
+        spa = getSharedPreferences(SP_APP_NAME, Context.MODE_PRIVATE);
+        spa.edit().clear().commit();
+
+
         String username = sp.getString("username", "");
         String password = sp.getString("password", "");
         if (!username.equals("") && !password.equals("")){
@@ -87,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             setSharedPreferences(checkbox.isChecked(), username, password);
 
             //TODO: add code for redirect
+            spa.edit().putString("username", user.getUsername()).commit();
             startActivity(new Intent(this, MainActivity.class));
 //            Toast t = Toast.makeText(this, "CORRECT USER CREDENTIALS", Toast.LENGTH_SHORT);
 //            t.show();

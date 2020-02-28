@@ -53,7 +53,6 @@ public class AttractionsFragment extends Fragment {
                 Attraction attraction = list.get(position);
                 Intent intent = new Intent(getContext(), AttractionDetailActivity.class);
                 intent.putExtra("attraction", attraction);
-                intent.putExtra("username", MainActivity.sp.getString("username", ""));
                 startActivity(intent);
             }
         });

@@ -16,22 +16,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.ListView;
 
 import com.example.tourismapp.R;
 import com.example.tourismapp.components.Attraction;
-import com.example.tourismapp.components.AttractionListAdapter;
 import com.example.tourismapp.components.TouristDatabase;
 import com.example.tourismapp.fragments.AttractionsFragment;
 import com.example.tourismapp.fragments.DatePickerFragment;
 import com.example.tourismapp.fragments.HomeFragment;
 import com.example.tourismapp.fragments.OlympicsFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -42,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     public static SharedPreferences sp;
     public static final String SP_NAME = "savedUserCredentials";
     public static TouristDatabase db;
-    private static final boolean INIT_DB = true;
+    private static final boolean INIT_DB = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +75,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -193,7 +187,7 @@ public class MainActivity extends AppCompatActivity
      */
     private void initAttractionsData(){
         //attraction empty
-        if (INIT_DB){
+        if (db.attractionDAO().getAttractionList().size() == 0){
             db.attractionDAO().deleteAttractions();
             Log.d("INIT_DB", "initializing");
             Attraction a1 = new Attraction();
