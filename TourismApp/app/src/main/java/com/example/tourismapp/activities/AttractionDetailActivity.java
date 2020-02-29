@@ -29,8 +29,6 @@ public class AttractionDetailActivity extends AppCompatActivity {
     private User user;
     private WishList wishlist;
     private AttractionRating attractionRating;
-    private SharedPreferences spa;
-    private static final String SP_APP_NAME = "currentSessionData";
     private static final String TAG = "ATTRACTION_DETAIL";
 
     @Override
@@ -48,8 +46,7 @@ public class AttractionDetailActivity extends AppCompatActivity {
             attraction = (Attraction) intent.getSerializableExtra("attraction");
         }
 
-        spa = getSharedPreferences(SP_APP_NAME, Context.MODE_PRIVATE);
-        String username = spa.getString("username", "");
+        String username = MainActivity.spa.getString("username", "");
         Log.d(TAG, username);
         user = MainActivity.db.userDAO().getUserByUsername(username).get(0);
 

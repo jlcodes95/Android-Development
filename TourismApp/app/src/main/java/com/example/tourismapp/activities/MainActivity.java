@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.tourismapp.R;
 import com.example.tourismapp.components.Attraction;
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity
     BottomNavigationView bottomNavigationView;
     private int currentFragmentId;
 
-    public static SharedPreferences sp;
-    public static final String SP_NAME = "savedUserCredentials";
+    public static SharedPreferences spa;
+    public static final String SP_APP_NAME = "currentSessionData";
     public static TouristDatabase db;
     private static final boolean INIT_DB = false;
 
@@ -70,7 +71,21 @@ public class MainActivity extends AppCompatActivity
         //init initial data
         initAttractionsData();
 
-        sp = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        spa = getSharedPreferences(SP_APP_NAME, Context.MODE_PRIVATE);
+
+        ((TextView) navigationView.getHeaderView(0)
+                .findViewById(R.id.tvHeaderName))
+                .setText(spa.getString("username", ""));
+
+        int previousFragmentId = spa.getInt("previousFragment", -1);
+        if (previousFragmentId != -1){
+            bottomNavigationView.setSelectedItemId(previousFragmentId);
+            handleFragmentChange(previousFragmentId);
+        }else{
+            bottomNavigationView.setSelectedItemId(R.id.b_nav_home);
+            handleFragmentChange(R.id.b_nav_home);
+        }
+
     }
 
     @Override
@@ -108,6 +123,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            spa.edit().clear().commit();
             super.onBackPressed();
         }
     }
@@ -131,11 +147,6 @@ public class MainActivity extends AppCompatActivity
                 Log.d("NAV", "logout");
                 startActivity(new Intent(this, FAQActivity.class));
                 break;
-            case R.id.nav_settings:
-                //handle settings
-                Log.d("NAV", "logout");
-                startActivity(new Intent(this, SettingsActivity.class));
-                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -144,27 +155,34 @@ public class MainActivity extends AppCompatActivity
     }
 
     private boolean onBottomNavigationItemSelected(MenuItem menuItem){
-        switch(menuItem.getItemId()){
+        handleFragmentChange(menuItem.getItemId());
+        return true;
+    }
+
+    private void handleFragmentChange(int id){
+        switch(id){
             case R.id.b_nav_home:
                 getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_content, new HomeFragment()).commit();
+                        .replace(R.id.main_content, new HomeFragment()).commit();
                 currentFragmentId = R.id.b_nav_home;
+                spa.edit().putInt("previousFragment", R.id.b_nav_home).commit();
                 invalidateOptionsMenu();
                 break;
             case R.id.b_nav_olympics:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new OlympicsFragment()).commit();
                 currentFragmentId = R.id.b_nav_olympics;
+                spa.edit().putInt("previousFragment", R.id.b_nav_olympics).commit();
                 invalidateOptionsMenu();
                 break;
             case R.id.b_nav_attractions:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_content, new AttractionsFragment()).commit();
                 currentFragmentId = R.id.b_nav_attractions;
+                spa.edit().putInt("previousFragment", R.id.b_nav_attractions).commit();
                 invalidateOptionsMenu();
                 break;
         }
-        return true;
     }
 
     private void handleSearchClick(){

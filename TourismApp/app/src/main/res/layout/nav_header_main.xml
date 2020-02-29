@@ -20,6 +20,7 @@
         app:srcCompat="@mipmap/ic_tourist_foreground" />
 
     <TextView
+        android:id="@+id/tvHeaderName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -27,11 +28,11 @@
         android:text="Jon Snow"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:text="Some random sub text" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="12sp"-->
+<!--        android:text="Some random sub text" />-->
 
 </LinearLayout>

@@ -20,13 +20,6 @@
                 android:value=".activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".activities.FAQActivity"
             android:parentActivityName=".activities.MainActivity">
             <meta-data
@@ -54,7 +47,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.MainActivity"
+            android:hardwareAccelerated="true"/>
     </application>
 
 </manifest>
