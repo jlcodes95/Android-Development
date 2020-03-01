@@ -41,6 +41,9 @@ public class AttractionsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * load attractions list view
+     */
     private void loadAttractions(){
         final List<Attraction> list = MainActivity.db.attractionDAO().getAttractionList();
         ListView lv = view.findViewById(R.id.lvAttractions);

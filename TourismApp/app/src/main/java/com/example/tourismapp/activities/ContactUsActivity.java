@@ -41,14 +41,25 @@ public class ContactUsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * set permission for dial
+     * @param view
+     */
     public void onClickOpenCall(View view){
         checkPermission(Manifest.permission.CALL_PHONE, MY_PERMISSIONS_REQUEST_PHONE, MSG_PHONE);
     }
 
+    /**
+     * set permission for sms
+     * @param view
+     */
     public void onClickOpenSMS(View view){
         checkPermission(Manifest.permission.CALL_PHONE, MY_PERMISSIONS_REQUEST_SMS, MSG_SMS);
     }
 
+    /**
+     * dial page redirection
+     */
     private void handleOpenCall(){
 
         String formattedPhoneNumber = "tel:" + DEFAULT_PHONE_NUMBER;
@@ -65,6 +76,9 @@ public class ContactUsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * sms page redirection
+     */
     private void handleOpenSMS(){
 
         String formattedPhoneNumber = "smsto:" + DEFAULT_PHONE_NUMBER;
@@ -82,6 +96,10 @@ public class ContactUsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * email app redirection
+     * @param view
+     */
     public void onClickOpenEmail(View view){
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri data = Uri.parse("mailto:" + DEFAULT_EMAIL);
@@ -89,6 +107,12 @@ public class ContactUsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * checks for permission on sms & dial
+     * @param permission
+     * @param permissionId
+     * @param message
+     */
     private void checkPermission(final String permission, final int permissionId, String message){
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this, permission)
@@ -122,6 +146,12 @@ public class ContactUsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * permission request call back
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
@@ -135,6 +165,10 @@ public class ContactUsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * handle permission request
+     * @param requestCode
+     */
     private void handleRequest(int requestCode){
         switch(requestCode){
             case MY_PERMISSIONS_REQUEST_PHONE:

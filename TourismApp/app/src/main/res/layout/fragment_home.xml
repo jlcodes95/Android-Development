@@ -5,21 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical">-->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:textSize="26sp"
             android:textColor="@color/colorLayoutText"
             android:text="Wish List"/>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/layoutWishList"
@@ -37,34 +38,82 @@
 <!--                    android:textColor="@color/colorLayoutText"-->
 <!--                    android:text="Your wishlist is empty!"/>-->
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:src="@drawable/img_akihabara"/>
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:src="@drawable/img_akihabara"/>
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:orientation="vertical"
+                    android:weightSum="100">
+
+                    <ImageView
+                        android:id="@+id/imgPlaceHolder1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="10"
+                        android:padding="30dp"
+                        android:src="@drawable/img_plus"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="90"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorLayoutText"
+                        android:textAlignment="center"
+                        android:text="Add Attractions to Wish List"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:orientation="vertical"
+                    android:weightSum="100">
+
+                    <ImageView
+                        android:id="@+id/imgPlaceHolder2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="10"
+                        android:padding="30dp"
+                        android:src="@drawable/img_plus"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="90"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorLayoutText"
+                        android:textAlignment="center"
+                        android:text="Add Attractions to Wish List"/>
+
+                </LinearLayout>
+
+<!--                <ImageView-->
+<!--                    android:layout_width="300dp"-->
+<!--                    android:layout_height="300dp"-->
+<!--                    android:paddingLeft="25dp"-->
+<!--                    android:paddingRight="25dp"-->
+<!--                    android:src="@drawable/img_akihabara" />-->
 
             </LinearLayout>
         </HorizontalScrollView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="26sp"
-            android:textColor="@color/colorLayoutText"
-            android:text="Upcoming Reminders"/>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="26sp"-->
+<!--            android:textColor="@color/colorLayoutText"-->
+<!--            android:text="Upcoming Reminders"/>-->
 
-        <ListView
-            android:id="@+id/lvReminders"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+<!--        <ListView-->
+<!--            android:id="@+id/lvReminders"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 </FrameLayout>

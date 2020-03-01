@@ -4,22 +4,31 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.room.Room;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tourismapp.R;
-import com.example.tourismapp.components.Attraction;
+import com.example.tourismapp.components.NotificationPublisher;
 import com.example.tourismapp.components.TouristDatabase;
 import com.example.tourismapp.fragments.AttractionsFragment;
 import com.example.tourismapp.fragments.DatePickerFragment;
@@ -28,16 +37,25 @@ import com.example.tourismapp.fragments.OlympicsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     BottomNavigationView bottomNavigationView;
+    NavigationView navigationView;
     private int currentFragmentId;
+    private boolean showBell;
+    private Date selectedDate;
 
+    public static TouristDatabase db;
     public static SharedPreferences spa;
     public static final String SP_APP_NAME = "currentSessionData";
-    public static TouristDatabase db;
-    private static final boolean INIT_DB = false;
+    private static final String TAG = "MAIN_ACTIVITY";
+    private static final String MSG_NOTIFICATION = "There's an olympic game hosted today.";
+    private final String CHANNEL_ID = "TOURISM_APP_CHANNEL_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +86,19 @@ public class MainActivity extends AppCompatActivity
         //initialize database
         db = Room.databaseBuilder(getApplicationContext(),
                 TouristDatabase.class, "usersDatabase").allowMainThreadQueries().build();
-        //init initial data
-        initAttractionsData();
 
         spa = getSharedPreferences(SP_APP_NAME, Context.MODE_PRIVATE);
 
+        String username = spa.getString("username", "");
+        if (username.equals("")){
+         startActivity(new Intent(this, LoginActivity.class));
+         return;
+        }
+        Log.d(TAG, "username: " + username);
+
         ((TextView) navigationView.getHeaderView(0)
                 .findViewById(R.id.tvHeaderName))
-                .setText(spa.getString("username", ""));
+                .setText(username);
 
         int previousFragmentId = spa.getInt("previousFragment", -1);
         if (previousFragmentId != -1){
@@ -86,20 +109,35 @@ public class MainActivity extends AppCompatActivity
             handleFragmentChange(R.id.b_nav_home);
         }
 
+        //notification channel init
+        createNotificationChannel();
+
     }
 
+    /**
+     * main menu creation
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+    /**
+     * main menu options selection
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.miSearch:
                 handleSearchClick();
                 break;
+            case R.id.miNotification:
+                handleNotificationClick();
         }
         return true;
     }
@@ -109,6 +147,7 @@ public class MainActivity extends AppCompatActivity
         switch (currentFragmentId){
             case R.id.b_nav_olympics:
                 (menu.findItem(R.id.miSearch)).setVisible(true);
+                if (this.showBell) (menu.findItem(R.id.miNotification)).setVisible(true);
                 break;
             default:
                 (menu.findItem(R.id.miSearch)).setVisible(false);
@@ -154,11 +193,20 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * handle bottom navigation menu item selection
+     * @param menuItem
+     * @return
+     */
     private boolean onBottomNavigationItemSelected(MenuItem menuItem){
         handleFragmentChange(menuItem.getItemId());
         return true;
     }
 
+    /**
+     * when fragment changes
+     * @param id - for the bottom navigation option
+     */
     private void handleFragmentChange(int id){
         switch(id){
             case R.id.b_nav_home:
@@ -176,15 +224,14 @@ public class MainActivity extends AppCompatActivity
                 invalidateOptionsMenu();
                 break;
             case R.id.b_nav_attractions:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_content, new AttractionsFragment()).commit();
-                currentFragmentId = R.id.b_nav_attractions;
-                spa.edit().putInt("previousFragment", R.id.b_nav_attractions).commit();
-                invalidateOptionsMenu();
+                goToAttractions();
                 break;
         }
     }
 
+    /**
+     * handle search click
+     */
     private void handleSearchClick(){
         //show date selection dialog
         Log.d("DATE_PICKER", "working");
@@ -192,65 +239,102 @@ public class MainActivity extends AppCompatActivity
         datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    /**
+     * handle notification click
+     */
+    private void handleNotificationClick(){
+        Date now = new Date();
+        Log.d(TAG, ""+(this.selectedDate.getTime() - now.getTime()));
+        scheduleNotification(getNotification(MSG_NOTIFICATION), 5000);
+        Toast t = Toast.makeText(this, "You have scheduled a notification on: " + this.selectedDate.toString(), Toast.LENGTH_SHORT);
+        t.show();
+    }
+
+    /**
+     * handles scheduling of notification using alarm manager
+     * referenced from https://gist.github.com/BrandonSmith/6679223
+     * @param notification the notification to be shown
+     * @param delay delay in ms
+     */
+    private void scheduleNotification(Notification notification, long delay) {
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    /**
+     * Referenced from https://gist.github.com/BrandonSmith/6679223
+     * @param message text to show in notification
+     * @return
+     */
+    private Notification getNotification(String message) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                .setContentTitle("Scheduled Notification")
+                .setContentText(message)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        return builder.build();
+    }
+
+    /**
+     * creating notification channel
+     */
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "TEST_NOTIFICATION";
+            String description = "A TESTING NOTIFICATION DESC";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    /**
+     * handle date picker results from olympics fragment date picker
+     * @param year
+     * @param month
+     * @param day
+     */
     public void onDatePickerResultSet(int year, int month, int day){
         Log.d("DATE_PICKER", String.format("The date is %02d/%02d/%02d", year, month, day));
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_content, new OlympicsFragment(String.format("%02d%02d%02d", year, month, day))).commit();
         currentFragmentId = R.id.b_nav_olympics;
+        this.showBell = true;
+        try{
+            this.selectedDate = new SimpleDateFormat("dd/MM/yyyy").parse(String.format("%d/%d/%d", day, month, year));
+        }catch (Exception e){
+            Log.d(TAG, e.getMessage());
+        }
+
         invalidateOptionsMenu();
     }
 
     /**
-     * used to initialize attractions for testing
+     * redirect to attractions fragment
      */
-    private void initAttractionsData(){
-        //attraction empty
-        if (db.attractionDAO().getAttractionList().size() == 0){
-            db.attractionDAO().deleteAttractions();
-            Log.d("INIT_DB", "initializing");
-            Attraction a1 = new Attraction();
-            a1.setName("Tokyo Tower");
-            a1.setAddress("4 Chome-2-8 Shibakoen, Minato City, Tokyo 105-0011, Japan");
-            a1.setDescription("Tokyo Tower is a communications and observation tower in the Shiba-koen district of Minato, Tokyo, Japan. At 332.9 meters, it is the second-tallest structure in Japan. The structure is an Eiffel Tower-inspired lattice tower that is painted white and international orange to comply with air safety regulations.");
-            a1.setImagePath("img_tokyo_tower");
-            db.attractionDAO().addAttraction(a1);
-            Attraction a2 = new Attraction();
-            a2.setName("Sky Tree");
-            a2.setAddress("1 Chome-1-2 Oshiage, Sumida City, Tokyo 131-0045, Japan");
-            a2.setDescription("Tokyo Skytree is a broadcasting and observation tower in Sumida, Tokyo. It became the tallest structure in Japan in 2010 and reached its full height of 634.0 metres in March 2011, making it the tallest tower in the world, displacing the Canton Tower,[4][5] and the second tallest structure in the world after the Burj Khalifa (829.8 m/2,722 ft).");
-            a2.setImagePath("img_sky_tree");
-            db.attractionDAO().addAttraction(a2);
-            Attraction a3 = new Attraction();
-            a3.setName("Akihabara");
-            a3.setAddress("Akihabara, Tokyo, Japan");
-            a3.setDescription("Akihabara is a buzzing shopping hub famed for its electronics retailers, ranging from tiny stalls to vast department stores like Yodobashi Multimedia Akiba. Venues specializing in manga, anime, and video games include Tokyo Anime Center, for exhibits and souvenirs, and Radio Kaikan with 10 floors of toys, trading cards, and collectibles. Staff dressed as maids or butlers serve tea and desserts at nearby maid cafes.");
-            a3.setImagePath("img_akihabara");
-            db.attractionDAO().addAttraction(a3);
-            Attraction a4 = new Attraction();
-            a4.setName("Life Sized Gundam Statue");
-            a4.setAddress("1, Aomi, Koto City, Tokyo 135-0064, Japan");
-            a4.setDescription("Giant white statue of cult sci-fi novel & anime character, with nighttime music & lights.");
-            a4.setImagePath("img_unicorn_gundam_statue");
-            db.attractionDAO().addAttraction(a4);
-            Attraction a5 = new Attraction();
-            a5.setName("Sensō-ji");
-            a5.setAddress("2 Chome-3-1 Asakusa, Taito City, Tokyo 111-0032, Japan");
-            a5.setDescription("Sensō-ji is an ancient Buddhist temple located in Asakusa, Tokyo, Japan. It is Tokyo's oldest temple, and one of its most significant. Formerly associated with the Tendai sect of Buddhism, it became independent after World War II.");
-            a5.setImagePath("img_senso_ji");
-            db.attractionDAO().addAttraction(a5);
-            Attraction a6 = new Attraction();
-            a6.setName("Meiji Jingu");
-            a6.setAddress("1-1 Yoyogikamizonocho, Shibuya City, Tokyo 151-8557, Japan");
-            a6.setDescription("Meiji Shrine, located in Shibuya, Tokyo, is the Shinto shrine that is dedicated to the deified spirits of Emperor Meiji and his wife, Empress Shōken. The shrine does not contain the emperor's grave, which is located at Fushimi-momoyama, south of Kyoto.");
-            a6.setImagePath("img_meiji_jingu");
-            db.attractionDAO().addAttraction(a6);
-            Attraction a7 = new Attraction();
-            a7.setName("Ueno Onshi Park");
-            a7.setAddress("Uenokoen, Taito City, Tokyo 110-0007, Japan");
-            a7.setDescription("Ueno Park is a spacious public park in the Ueno district of Taitō, Tokyo, Japan. The park was established in 1873 on lands formerly belonging to the temple of Kan'ei-ji.");
-            a7.setImagePath("img_ueno_onshi_park");
-            db.attractionDAO().addAttraction(a7);
-        }
-        Log.d("INIT_DB", ""+db.attractionDAO().getAttractionList().size());
+    public void goToAttractions(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_content, new AttractionsFragment()).commit();
+        currentFragmentId = R.id.b_nav_attractions;
+        spa.edit().putInt("previousFragment", R.id.b_nav_attractions).commit();
+        invalidateOptionsMenu();
     }
 }

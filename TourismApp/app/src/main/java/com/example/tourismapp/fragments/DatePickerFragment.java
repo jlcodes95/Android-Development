@@ -18,9 +18,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.example.tourismapp.activities.LoginActivity;
 import com.example.tourismapp.activities.MainActivity;
-import com.example.tourismapp.activities.SignupActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -59,6 +57,13 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         return datePicker;
     }
 
+    /**
+     * handle date selection for date picker
+     * @param datePicker
+     * @param year
+     * @param month
+     * @param day
+     */
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         try{

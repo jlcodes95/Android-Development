@@ -16,6 +16,12 @@ public class User {
     private String username;
     @NotNull
     private String password;
+    @NotNull
+    private boolean isAdmin;
+
+    public User(){
+        this.isAdmin = false;
+    }
 
     public int getId() {
         return id;
@@ -41,5 +47,13 @@ public class User {
 
     public void setPassword(@NotNull String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

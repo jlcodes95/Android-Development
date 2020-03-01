@@ -40,6 +40,10 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * attempt user signup
+     * @param view
+     */
     public void onClickSignup(View view){
         EditText etUsername = findViewById(R.id.etUsername);
         EditText etPassword = findViewById(R.id.etPassword);
