@@ -224,7 +224,11 @@ public class MainActivity extends AppCompatActivity
                 invalidateOptionsMenu();
                 break;
             case R.id.b_nav_attractions:
-                goToAttractions();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content, new AttractionsFragment()).commit();
+                currentFragmentId = R.id.b_nav_attractions;
+                spa.edit().putInt("previousFragment", R.id.b_nav_attractions).commit();
+                invalidateOptionsMenu();
                 break;
         }
     }
@@ -331,10 +335,6 @@ public class MainActivity extends AppCompatActivity
      * redirect to attractions fragment
      */
     public void goToAttractions(){
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_content, new AttractionsFragment()).commit();
-        currentFragmentId = R.id.b_nav_attractions;
-        spa.edit().putInt("previousFragment", R.id.b_nav_attractions).commit();
-        invalidateOptionsMenu();
+        this.bottomNavigationView.setSelectedItemId(R.id.b_nav_attractions);
     }
 }

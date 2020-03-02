@@ -54,7 +54,7 @@ public class ContactUsActivity extends AppCompatActivity {
      * @param view
      */
     public void onClickOpenSMS(View view){
-        checkPermission(Manifest.permission.CALL_PHONE, MY_PERMISSIONS_REQUEST_SMS, MSG_SMS);
+        checkPermission(Manifest.permission.SEND_SMS, MY_PERMISSIONS_REQUEST_SMS, MSG_SMS);
     }
 
     /**

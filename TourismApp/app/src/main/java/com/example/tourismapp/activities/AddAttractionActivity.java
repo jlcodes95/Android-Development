@@ -98,6 +98,11 @@ public class AddAttractionActivity extends AppCompatActivity {
             Toast t = Toast.makeText(this, SUCCESS_MSG, Toast.LENGTH_SHORT);
             t.show();
 
+            etName.setText("");
+            etAddress.setText("");
+            etDescription.setText("");
+            etImagePath.setText("");
+
         }catch(Exception e){
             Toast t = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
             t.show();
