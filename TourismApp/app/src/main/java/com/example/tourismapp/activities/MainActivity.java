@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity
     private void handleNotificationClick(){
         Date now = new Date();
         Log.d(TAG, ""+(this.selectedDate.getTime() - now.getTime()));
-        scheduleNotification(getNotification(MSG_NOTIFICATION), 5000);
+        scheduleNotification(getNotification(MSG_NOTIFICATION), this.selectedDate.getTime() - now.getTime());
         Toast t = Toast.makeText(this, "You have scheduled a notification on: " + this.selectedDate.toString(), Toast.LENGTH_SHORT);
         t.show();
     }
