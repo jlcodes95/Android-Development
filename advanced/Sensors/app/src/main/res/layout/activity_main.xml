@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/lay_default"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tvLightSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light Sensor"
+        android:textSize="30sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tvLightLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light Level"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvLightSensor"/>
+
+    <Button
+        android:id="@+id/btnEnableLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enable Light Sensor"
+        android:onClick="enableLightSensorPressed"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tvLightLevel"/>
+
+    <Button
+        android:id="@+id/btnDisableLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disable Light Sensor"
+        android:onClick="disableLightSensorPressed"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btnEnableLight"/>
+
+    <TextView
+        android:id="@+id/tvProximity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Proximity: "
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/btnDisableLight"/>
+
+    <TextView
+        android:id="@+id/tvAzimuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Azimuth: "
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvProximity"/>
+
+    <TextView
+        android:id="@+id/tvPitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pitch: "
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvAzimuth"/>
+
+    <TextView
+        android:id="@+id/tvRoll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Roll: "
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvPitch"/>
+
+</RelativeLayout>
