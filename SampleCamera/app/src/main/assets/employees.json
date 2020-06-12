@@ -1,0 +1,37 @@
+[
+    {
+        "userId":"rfisk",
+        "jobTitleName":"Payroll Specialist",
+        "firstName":"Robert",
+        "lastName":"Fisk",
+        "employeeCode":"E1",
+        "region":"US",
+        "dept":"Finance",
+        "phoneNumber":"408-123-4567",
+        "emailAddress":"robertfisk@gmail.com",
+        "dateHired":"2011-01-01"
+    },
+    {
+        "userId":"msimons",
+        "jobTitleName":"Developer",
+        "firstName":"Mary",
+        "lastName":"Simons",
+        "employeeCode":"E2",
+        "dept":"IT",
+        "region":"APAC",
+        "phoneNumber":"408-111-1111",
+        "emailAddress":"mary.simons@corp.com",
+        "dateHired":"2020-03-25"
+    },
+    {
+        "userId":"thanks",
+        "jobTitleName":"Program Manager",
+        "firstName":"Tom",
+        "lastName":"Hanks",
+        "dept":"Sales",
+        "region":"EU",
+        "phoneNumber":"408-222-2222",
+        "emailAddress":"tomhanks@gmail.com",
+        "dateHired":"1990-12-02"
+    }
+]

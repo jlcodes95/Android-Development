@@ -1,0 +1,28 @@
+{
+  "firstname": "Peter",
+  "lastname": "Smith",
+  "age": 20,
+  "coordinates": {
+    "lat": 37.330576,
+    "lng": -122.029739
+  },
+  "interests": ["reading", "playing tennis", "cooking"],
+  "birthday":"2000-08-31",
+  "jobs":[
+    {
+      "employer":"McDonalds",
+      "title":"cashier",
+      "years":1
+    },
+    {
+      "employer":"Preston High School",
+      "title":"Volunteer teaching assistant",
+      "years":4
+    },
+    {
+      "employer":"Vaughn Community Center",
+      "title":"Summer Camp Counsellor",
+      "years":2
+    }
+  ]
+}
