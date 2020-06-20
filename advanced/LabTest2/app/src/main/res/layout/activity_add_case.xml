@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddCaseActivity">
+
+    <TextView
+        android:id="@+id/tvAddCase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/tvTotalCases"
+        android:textSize="30sp"
+        android:text="Add Case"/>
+
+    <TextView
+        android:id="@+id/tvTotalCases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="210dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/etTotalCases"
+        android:text="Total Cases"/>
+
+    <EditText
+        android:id="@+id/etTotalCases"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:inputType="number"
+        android:layout_above="@id/tvTotalRecovered"/>
+
+    <TextView
+        android:id="@+id/tvTotalRecovered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="210dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/etTotalRecovered"
+        android:text="Total Recovered"/>
+
+    <EditText
+        android:id="@+id/etTotalRecovered"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:inputType="number"
+        android:layout_above="@id/tvTotalDeaths"/>
+
+    <TextView
+        android:id="@+id/tvTotalDeaths"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="210dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/etTotalDeaths"
+        android:text="Total Deaths"/>
+
+    <EditText
+        android:id="@+id/etTotalDeaths"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:inputType="number"
+        android:layout_above="@id/tvProvinces"/>
+
+    <TextView
+        android:id="@+id/tvProvinces"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="210dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/spProvinces"
+        android:text="Provinces"/>
+
+    <Spinner
+        android:id="@+id/spProvinces"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <Button
+        android:id="@+id/btnAddCase"
+        android:onClick="onAddCasePressed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/spProvinces"
+        android:text="Add Case"/>
+
+</RelativeLayout>

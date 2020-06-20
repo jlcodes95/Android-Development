@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PersonDetailsActivity">
+
+
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/tvFullName"/>
+
+    <TextView
+        android:id="@+id/tvFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="FULL NAME"
+        android:layout_above="@id/tvLastName"/>
+
+    <TextView
+        android:id="@+id/tvLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="LAST NAME"
+        android:layout_above="@id/tvCoordinates"/>
+
+    <TextView
+        android:id="@+id/tvCoordinates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="COORDINATES"/>
+
+    <LinearLayout
+        android:id="@+id/loBtns"
+        android:layout_below="@id/tvCoordinates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <Button
+            android:onClick="onInterestedPressed"
+            android:layout_weight="50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="INTERESTED"/>
+
+        <Button
+            android:onClick="onNotInterestedPressed"
+            android:layout_weight="50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="NOT INTERESTED"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivSelfie"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/loBtns"/>
+
+    <Button
+        android:id="@+id/btnSend"
+        android:onClick="onSendPressed"
+        android:layout_weight="50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="SEND"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/ivSelfie"/>
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_below="@id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text=""/>
+</RelativeLayout>

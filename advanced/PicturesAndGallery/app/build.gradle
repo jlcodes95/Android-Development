@@ -17,11 +17,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main {
-            manifest.srcFile 'PicturesAndGallery/app/src/main/AndroidManifest.xml'
-        }
-    }
 }
 
 dependencies {

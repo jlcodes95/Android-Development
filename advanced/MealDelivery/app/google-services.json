@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "907311620832",
+    "firebase_url": "https://mealdelivery-bca28.firebaseio.com",
+    "project_id": "mealdelivery-bca28",
+    "storage_bucket": "mealdelivery-bca28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907311620832:android:82b2cb643aa4428088a685",
+        "android_client_info": {
+          "package_name": "com.example.mealdelivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907311620832-p1fqjjlhhaj8nj1c13lvlqrjns4tlcpk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mealdelivery",
+            "certificate_hash": "e39c3d2315ff8a4c61ddd991cb046c939a22a217"
+          }
+        },
+        {
+          "client_id": "907311620832-if11rvqmv52m70389rnao2v1ducpcvfg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVxBkJPvGIBCHN5yEM57zgbDJOuyA3AU8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907311620832-if11rvqmv52m70389rnao2v1ducpcvfg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

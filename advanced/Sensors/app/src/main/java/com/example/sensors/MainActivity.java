@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (sensorType == Sensor.TYPE_ACCELEROMETER) {
                     // data is coming from accelerometer
-                    // - clone() creates a copy of teh data
+                    // - clone() creates a copy of the data
                     // - we could do: accelerometerData = sensorEvent.values
                     // But the sensor tends to update data faster than you can save and process it
                     // Thus, its better to make a copy than to just use whatever was pulled from the sensor.
