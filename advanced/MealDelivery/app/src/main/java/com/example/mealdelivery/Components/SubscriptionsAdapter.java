@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.mealdelivery.DataTransferObjects.SubscriptionDto;
+import com.example.mealdelivery.Data.Subscription;
 import com.example.mealdelivery.R;
 
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import java.util.ArrayList;
 public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionViewHolder> {
 
     private final String TAG = "DEBUG_SUBSCRIPTIONS_ADAPTER";
-    private ArrayList<SubscriptionDto> subscriptions;
+    private ArrayList<Subscription> subscriptions;
     IOnRowClickedListener listenerInterface;
 
-    public SubscriptionsAdapter(ArrayList<SubscriptionDto> subscriptions, IOnRowClickedListener listener) {
+    public SubscriptionsAdapter(ArrayList<Subscription> subscriptions, IOnRowClickedListener listener) {
         this.subscriptions = subscriptions;
         this.listenerInterface = listener;
     }
@@ -46,7 +46,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionViewH
     @Override
     public void onBindViewHolder(@NonNull SubscriptionViewHolder holder, int position) {
         //get item from list
-        SubscriptionDto subscription = subscriptions.get(position);
+        Subscription subscription = subscriptions.get(position);
 
         //display item in recyclerView
         ImageView ivPhoto = holder.getIvPhoto();

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.mealdelivery.DataTransferObjects.UserRoleDto;
+import com.example.mealdelivery.Data.UserRole;
 import com.example.mealdelivery.R;
 import com.example.mealdelivery.Roles;
 import com.firebase.ui.auth.AuthUI;
@@ -94,10 +94,10 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             if (task.getResult().size() > 0) {
                                 QueryDocumentSnapshot document = (QueryDocumentSnapshot) task.getResult().getDocuments().get(0);
-                                UserRoleDto userRoleDto = document.toObject(UserRoleDto.class);
+                                UserRole userRole = document.toObject(UserRole.class);
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                if (userRoleDto != null) {
-                                    goToDashBoardWithUserRole(userRoleDto);
+                                if (userRole != null) {
+                                    goToDashBoardWithUserRole(userRole);
                                 }else {
                                     Toast.makeText(MainActivity.this, ERR_DB_READ, Toast.LENGTH_SHORT).show();
                                 }
@@ -115,17 +115,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void insertUserDataAsCustomer(FirebaseUser user) {
         // Create a new user with a first and last name
-        final UserRoleDto userRoleDto = new UserRoleDto(user.getUid(), Roles.CUSTOMER);
+        final UserRole userRole = new UserRole(user.getUid(), Roles.CUSTOMER);
 
         // Add a new document with a generated ID
         db.collection("userRoles")
-                .add(userRoleDto)
+                .add(userRole)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                         //redirect customer page
-                        goToDashBoardWithUserRole(userRoleDto);
+                        goToDashBoardWithUserRole(userRole);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -136,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void goToDashBoardWithUserRole(UserRoleDto userRoleDto) {
+    private void goToDashBoardWithUserRole(UserRole userRole) {
         Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-        intent.putExtra("userRoleDto", userRoleDto);
+        intent.putExtra("userRole", userRole);
         startActivityForResult(intent, RC_DASHBOARD);
     }
 

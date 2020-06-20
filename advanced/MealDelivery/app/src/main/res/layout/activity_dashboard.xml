@@ -17,6 +17,7 @@
     <FrameLayout
         android:id="@+id/fContainer"
         android:layout_below="@id/tbDashboard"
+        android:layout_above="@id/nav_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

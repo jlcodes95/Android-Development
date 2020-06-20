@@ -9,8 +9,10 @@
     <ImageView
         android:layout_weight="10"
         android:id="@+id/ivPhoto"
-        android:layout_width="80dp"
-        android:layout_height="80dp"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" />
 
     <LinearLayout
         android:layout_weight="90"
@@ -32,7 +34,5 @@
             android:text="A VERY VERY LONG DESCRITION HERE;A VERY VERY LONG DESCRITION HERE"/>
 
     </LinearLayout>
-
-
 
 </LinearLayout>

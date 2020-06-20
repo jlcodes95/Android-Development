@@ -97,7 +97,9 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/icon_plus"
-                android:background="#CCCCCC"
+                android:scaleType="centerCrop"
+                android:background="@color/colorPrimary"
+                android:tint="@color/colorPrimaryDark"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/tvPhoto"/>
 
@@ -132,6 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:background="@color/colorPrimary"
                 android:text="Add Sample Photo"
                 android:layout_below="@+id/hsvSamplePhoto"/>
 
@@ -140,8 +143,9 @@
                 android:onClick="onAddSubscriptionPressed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:layout_centerHorizontal="true"
+                android:background="@color/colorPrimary"
                 android:text="Add Subscription"
                 android:layout_below="@id/btnAddSamplePhoto"/>
 

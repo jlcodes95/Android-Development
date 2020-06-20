@@ -1,16 +1,16 @@
-package com.example.mealdelivery.DataTransferObjects;
+package com.example.mealdelivery.Data;
 
 import com.example.mealdelivery.Roles;
 
 import java.io.Serializable;
 
-public class UserRoleDto implements Serializable {
+public class UserRole implements Serializable {
     private String uid;
     private Roles role;
 
-    public UserRoleDto() {}
+    public UserRole() {}
 
-    public UserRoleDto(String uid, Roles role) {
+    public UserRole(String uid, Roles role) {
         this.uid = uid;
         this.role = role;
     }

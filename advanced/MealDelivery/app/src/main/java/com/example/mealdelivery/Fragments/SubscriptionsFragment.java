@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import com.example.mealdelivery.Activities.EditSubscriptionActivity;
 import com.example.mealdelivery.Components.IOnRowClickedListener;
 import com.example.mealdelivery.Components.SubscriptionsAdapter;
-import com.example.mealdelivery.DataTransferObjects.SubscriptionDto;
+import com.example.mealdelivery.Data.Subscription;
 import com.example.mealdelivery.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,7 +39,7 @@ public class SubscriptionsFragment extends Fragment implements IOnRowClickedList
     private View view;
     private RecyclerView rvSubscriptions;
     private ArrayList<String> documentIds;
-    private ArrayList<SubscriptionDto> subscriptions;
+    private ArrayList<Subscription> subscriptions;
     private SubscriptionsAdapter adapter;
 
     public SubscriptionsFragment() {
@@ -67,7 +67,7 @@ public class SubscriptionsFragment extends Fragment implements IOnRowClickedList
 
     public void onNewSubscriptionPressed(View view) {
         Log.d(TAG, "new subscription pressed.");
-        startActivity(new Intent(getContext(), EditSubscriptionActivity.class));
+        startActivityForResult(new Intent(getContext(), EditSubscriptionActivity.class), CODE_EDIT_SUBSCRIPTION);
     }
 
     private void setupRecyclerView() {
@@ -94,7 +94,7 @@ public class SubscriptionsFragment extends Fragment implements IOnRowClickedList
                         documentIds.clear();
                         for (DocumentSnapshot document: queryDocumentSnapshots.getDocuments()) {
                             documentIds.add(document.getId());
-                            subscriptions.add(document.toObject(SubscriptionDto.class));
+                            subscriptions.add(document.toObject(Subscription.class));
                         }
                         adapter.notifyDataSetChanged();
                     }

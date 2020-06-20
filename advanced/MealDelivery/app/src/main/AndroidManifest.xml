@@ -14,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.EditSubscriptionActivity"></activity>
+        <activity android:name=".Activities.OrderSummaryActivity"></activity>
+        <activity android:name=".Activities.SubscribeConfirmationActivity" />
+        <activity android:name=".Activities.SubscribeActivity" />
+        <activity android:name=".Activities.EditSubscriptionActivity" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +36,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/fileprovider" />
         </provider>
-
     </application>
 
 </manifest>

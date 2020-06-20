@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
@@ -7,9 +7,11 @@
 
     <ImageView
         android:id="@+id/ivPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/ic_launcher_background"
+
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:layout_marginLeft="30dp"
@@ -17,8 +19,10 @@
 
     <TextView
         android:id="@+id/tvName"
+        android:layout_below="@+id/ivPhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textSize="20sp"
@@ -27,8 +31,10 @@
 
     <TextView
         android:id="@+id/tvDescription"
+        android:layout_below="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:maxLength="100"
@@ -36,12 +42,14 @@
 
     <TextView
         android:id="@+id/tvPrice"
+        android:layout_below="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textStyle="italic"
         android:textColor="#009999"
         android:text="Starting at $x.yy/meal"/>
 
-</LinearLayout>
+</RelativeLayout>

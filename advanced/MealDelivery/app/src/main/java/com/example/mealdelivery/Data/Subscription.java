@@ -1,14 +1,15 @@
-package com.example.mealdelivery.DataTransferObjects;
+package com.example.mealdelivery.Data;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class SubscriptionDto implements Serializable {
+public class Subscription implements Serializable {
 
     public static final int COUNT_SUBSCRIPTION_MONTH = 1;
     public static final int COUNT_SUBSCRIPTION_SEMI_ANNUAL = 6;
     private final int COUNT_MONTH = 30;
+    private final int MEALS_PER_DAY = 2;
     private String name;
     private double price;
     private double discount;
@@ -18,9 +19,9 @@ public class SubscriptionDto implements Serializable {
     private ArrayList<String> samplePhotoUrls;
     private static DecimalFormat df = new DecimalFormat("0.00");
 
-    public SubscriptionDto() {}
+    public Subscription() {}
 
-    public SubscriptionDto(String name, double price, double discount, String allergy, String description, String photoPath, ArrayList<String> samplePhotoUrls) {
+    public Subscription(String name, double price, double discount, String allergy, String description, String photoPath, ArrayList<String> samplePhotoUrls) {
         this.name = name;
         this.price = price;
         this.discount = discount;
@@ -86,12 +87,25 @@ public class SubscriptionDto implements Serializable {
         this.samplePhotoUrls = samplePhotoUrls;
     }
 
-    private double getPerMealPrice(int months) {
-        double price = (this.price - this.discount) / COUNT_MONTH;
-        return this.price / months;
+    public double getTotal(int months) {
+        double beforeDiscount = this.price * months;
+        return months == COUNT_SUBSCRIPTION_MONTH ? beforeDiscount : (beforeDiscount - this.discount);
     }
 
-    public String getPerMealPriceDesc() {
-        return "Starting at $" + df.format(getPerMealPrice(COUNT_SUBSCRIPTION_MONTH)) + " per meal";
+    private double getPerMealPrice(int months) {
+        double mealPrice = getTotal(months) / COUNT_MONTH;
+        return mealPrice / months / MEALS_PER_DAY;
+    }
+
+    public String getPerMealPriceDesc(int months) {
+        return "$" + df.format(getPerMealPrice(months)) + " per meal";
+    }
+
+    public String getTotalDesc(int months) {
+        return "$" + df.format(getTotal(months)) + "";
+    }
+
+    public String getPlanDesc(int months) {
+        return "Includes " + MEALS_PER_DAY * COUNT_MONTH * months + " meals for " + getPerMealPriceDesc(months);
     }
 }

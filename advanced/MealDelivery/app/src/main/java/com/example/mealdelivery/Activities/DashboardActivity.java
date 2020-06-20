@@ -4,15 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 
-import com.example.mealdelivery.DataTransferObjects.UserRoleDto;
+import com.example.mealdelivery.Data.UserRole;
 import com.example.mealdelivery.Fragments.MySubscriptionsFragment;
 import com.example.mealdelivery.Fragments.PickupFragment;
 import com.example.mealdelivery.Fragments.SubscribeFragment;
@@ -72,10 +70,10 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        UserRoleDto userRoleDto = (UserRoleDto) getIntent().getSerializableExtra("userRoleDto");
-        if (userRoleDto != null) {
-            Log.d(TAG, ""+(userRoleDto.getRole() == Roles.ADMIN));
-            if (userRoleDto.getRole() == Roles.ADMIN) {
+        UserRole userRole = (UserRole) getIntent().getSerializableExtra("userRole");
+        if (userRole != null) {
+            Log.d(TAG, ""+(userRole.getRole() == Roles.ADMIN));
+            if (userRole.getRole() == Roles.ADMIN) {
                 Log.d(TAG, "admin layout");
                 bottomNavigationView.inflateMenu(R.menu.menu_nav_bottom_admin);
                 onBottomNavItemSelected(R.id.item_subscriptions);

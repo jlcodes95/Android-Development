@@ -2,4 +2,7 @@
 <resources>
     <dimen name="sample_photo_width">80dp</dimen>
     <dimen name="sample_photo_height">80dp</dimen>
+
+    <dimen name="sample_photo_width_subscribe">100dp</dimen>
+    <dimen name="sample_photo_height_subscribe">100dp</dimen>
 </resources>

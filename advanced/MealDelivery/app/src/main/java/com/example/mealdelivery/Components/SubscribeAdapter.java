@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.mealdelivery.DataTransferObjects.SubscriptionDto;
+import com.example.mealdelivery.Data.Subscription;
 import com.example.mealdelivery.R;
 
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import java.util.ArrayList;
 public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeViewHolder> {
 
     private final String TAG = "DEBUG_SUBSCRIBE_ADAPTER";
-    private ArrayList<SubscriptionDto> subscriptions;
+    private ArrayList<Subscription> subscriptions;
     IOnRowClickedListener listenerInterface;
 
-    public SubscribeAdapter(ArrayList<SubscriptionDto> subscriptions, IOnRowClickedListener listener) {
+    public SubscribeAdapter(ArrayList<Subscription> subscriptions, IOnRowClickedListener listener) {
         this.subscriptions = subscriptions;
         this.listenerInterface = listener;
     }
@@ -46,7 +46,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull SubscribeViewHolder holder, int position) {
         //get item from list
-        SubscriptionDto subscription = subscriptions.get(position);
+        Subscription subscription = subscriptions.get(position);
 
         //display item in recyclerView
         ImageView ivPhoto = holder.getIvPhoto();
@@ -57,8 +57,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeViewHolder> 
         Log.d(TAG, ""+position);
         tvName.setText(subscription.getName());
         tvDescription.setText(subscription.getDescription());
-        tvPrice.setText(subscription.getPerMealPriceDesc());
-
+        tvPrice.setText("Starting at " + subscription.getPerMealPriceDesc(Subscription.COUNT_SUBSCRIPTION_SEMI_ANNUAL));
         Glide.with(holder.getIvPhoto().getContext()).load(subscription.getPhotoUrl()).into(ivPhoto);
     }
 

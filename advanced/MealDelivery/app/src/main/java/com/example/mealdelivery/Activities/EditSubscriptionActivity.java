@@ -15,19 +15,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.mealdelivery.DataTransferObjects.SubscriptionDto;
+import com.example.mealdelivery.Data.Subscription;
 import com.example.mealdelivery.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -71,7 +68,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
     private StorageReference storage;
     private boolean isMealkitPhoto = true;
     private String documentId;
-    private SubscriptionDto existingSubscriptionDto;
+    private Subscription existingSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,9 +102,9 @@ public class EditSubscriptionActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance().getReference();
 
         Intent intent = getIntent();
-        existingSubscriptionDto = (SubscriptionDto) intent.getSerializableExtra("existingSubscription");
+        existingSubscription = (Subscription) intent.getSerializableExtra("existingSubscription");
         documentId = intent.getStringExtra("documentId");
-        if (existingSubscriptionDto != null) {
+        if (existingSubscription != null) {
             loadExistingSubscriptionData();
             TextView tvNewSubscription = findViewById(R.id.tvNewSubscription);
             tvNewSubscription.setText("Update Subscription");
@@ -131,8 +128,6 @@ public class EditSubscriptionActivity extends AppCompatActivity {
     }
 
     public void onAddSubscriptionPressed(View view) {
-        //@TODO: ADD MODIFIER FOR EDITING......!!!!!!!!!!!!!!!!!!!!!!!!!
-
         Log.d(TAG, "add subscription");
         String name = etName.getText().toString();
         String price = etPrice.getText().toString();
@@ -145,7 +140,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
         }else if (price.isEmpty()) {
             etPrice.setError("Please enter a price");
         }else if (discount.isEmpty()) {
-            etPrice.setError("Please enter a discount for semi-annual subscription");
+            etDiscount.setError("Please enter a discount for semi-annual subscription");
         }else if (description.isEmpty()) {
             etDescription.setError("Please enter a description");
         }else if (photoUrl == null) {
@@ -154,17 +149,17 @@ public class EditSubscriptionActivity extends AppCompatActivity {
             Toast.makeText(this, "Please choose at least one sample meal photo", Toast.LENGTH_LONG).show();
         }else {
             try {
-                SubscriptionDto subscriptionDto = new SubscriptionDto(name,
+                Subscription subscription = new Subscription(name,
                         Double.parseDouble(price),
                         Double.parseDouble(discount),
                         allergy,
                         description,
                         photoUrl,
                         samplePhotoUrls);
-                if (existingSubscriptionDto == null) {
-                    addSubscription(subscriptionDto);
+                if (existingSubscription == null) {
+                    addSubscription(subscription);
                 }else {
-                    updateSubscription(subscriptionDto);
+                    updateSubscription(subscription);
                 }
             }catch (NumberFormatException e) {
                 etPrice.setError("Please make sure the price and the discounts are valid numbers");
@@ -172,28 +167,30 @@ public class EditSubscriptionActivity extends AppCompatActivity {
         }
     }
 
-    private void addSubscription(SubscriptionDto subscriptionDto) {
+    private void addSubscription(Subscription subscription) {
         db.collection("subscriptions")
-                .add(subscriptionDto)
+                .add(subscription)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(EditSubscriptionActivity.this, "Successfully added subscription", Toast.LENGTH_LONG).show();
+                            setResult(RESULT_OK);
                             finish();
                         }
                     }
                 });
     }
 
-    private void updateSubscription(SubscriptionDto subscriptionDto) {
+    private void updateSubscription(Subscription subscription) {
         db.collection("subscriptions")
                 .document(documentId)
-                .set(subscriptionDto)
+                .set(subscription)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(EditSubscriptionActivity.this, "Successfully updated subscription", Toast.LENGTH_LONG).show();
+                        setResult(RESULT_OK);
                         finish();
                     }
                 });
@@ -378,6 +375,8 @@ public class EditSubscriptionActivity extends AppCompatActivity {
                     (int) getResources().getDimension(R.dimen.sample_photo_width),
                     (int) getResources().getDimension(R.dimen.sample_photo_height));
             photo.setLayoutParams(layoutParams);
+            photo.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            photo.setPadding(5, 5, 5, 5);
             layoutSamplePhoto.addView(photo);
         } catch (FileNotFoundException e) {
 
@@ -390,13 +389,13 @@ public class EditSubscriptionActivity extends AppCompatActivity {
     }
 
     private void loadExistingSubscriptionData() {
-        etName.setText(existingSubscriptionDto.getName());
-        etPrice.setText("" + existingSubscriptionDto.getPrice());
-        etDiscount.setText("" + existingSubscriptionDto.getDiscount());
-        etDescription.setText(existingSubscriptionDto.getDescription());
-        etAllergy.setText(existingSubscriptionDto.getAllergy());
-        photoUrl = existingSubscriptionDto.getPhotoUrl();
-        samplePhotoUrls = existingSubscriptionDto.getSamplePhotoUrls();
+        etName.setText(existingSubscription.getName());
+        etPrice.setText("" + existingSubscription.getPrice());
+        etDiscount.setText("" + existingSubscription.getDiscount());
+        etDescription.setText(existingSubscription.getDescription());
+        etAllergy.setText(existingSubscription.getAllergy());
+        photoUrl = existingSubscription.getPhotoUrl();
+        samplePhotoUrls = existingSubscription.getSamplePhotoUrls();
 
         Glide.with(this).load(photoUrl).into(ivPhoto);
 
@@ -406,6 +405,8 @@ public class EditSubscriptionActivity extends AppCompatActivity {
                     (int) getResources().getDimension(R.dimen.sample_photo_width),
                     (int) getResources().getDimension(R.dimen.sample_photo_height));
             photo.setLayoutParams(layoutParams);
+            photo.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            photo.setPadding(5, 5, 5, 5);
             Glide.with(this).load(url).into(photo);
             layoutSamplePhoto.addView(photo);
         }
