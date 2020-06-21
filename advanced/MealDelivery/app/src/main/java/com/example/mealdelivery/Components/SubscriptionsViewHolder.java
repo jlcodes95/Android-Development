@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealdelivery.R;
 
-public class SubscriptionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class SubscriptionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     private final String TAG = "DEBUG_SUBSCRIPTION_VIEWHOLDER";
     private ImageView ivPhoto;
@@ -17,7 +17,7 @@ public class SubscriptionViewHolder extends RecyclerView.ViewHolder implements V
     private TextView tvDescription;
     IOnRowClickedListener listenerInterface;
 
-    public SubscriptionViewHolder(View itemView, IOnRowClickedListener listenerInterface) {
+    public SubscriptionsViewHolder(View itemView, IOnRowClickedListener listenerInterface) {
         super(itemView);
 
         this.ivPhoto = itemView.findViewById(R.id.ivPhoto);

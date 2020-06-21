@@ -33,6 +33,7 @@ public class PickupFragment extends Fragment {
         setFirstParkingSlow();
         setSecondParkingSlow();
         setThirdParkingSlow();
+        //TODO: UPDATE PARKING DATA ON LOAD
         return view;
     }
 

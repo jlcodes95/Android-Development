@@ -3,6 +3,7 @@ package com.example.mealdelivery.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.mealdelivery.Data.UserRole;
-import com.example.mealdelivery.Fragments.MySubscriptionsFragment;
+import com.example.mealdelivery.Fragments.MyOrdersFragment;
 import com.example.mealdelivery.Fragments.PickupFragment;
 import com.example.mealdelivery.Fragments.SubscribeFragment;
 import com.example.mealdelivery.Fragments.SubscriptionsFragment;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class DashboardActivity extends AppCompatActivity {
 
     private final String TAG = "DEBUG_DASHBOARD";
+
     private FirebaseAuth auth;
     private BottomNavigationView bottomNavigationView;
     private FrameLayout fContainer;
@@ -61,9 +63,9 @@ public class DashboardActivity extends AppCompatActivity {
                         Log.d(TAG, "subscribe tab clicked");
                         onBottomNavItemSelected(R.id.item_subscribe);
                         break;
-                    case R.id.item_my_subscriptions:
-                        Log.d(TAG, "my subscription tab clicked");
-                        onBottomNavItemSelected(R.id.item_my_subscriptions);
+                    case R.id.item_my_orders:
+                        Log.d(TAG, "my orders tab clicked");
+                        onBottomNavItemSelected(R.id.item_my_orders);
                         break;
                 }
                 return true;
@@ -124,6 +126,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void onBottomNavItemSelected(int id) {
+
         switch (id) {
             case R.id.item_subscriptions:
                 getSupportFragmentManager().beginTransaction()
@@ -137,9 +140,9 @@ public class DashboardActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fContainer, new SubscribeFragment()).commit();
                 break;
-            case R.id.item_my_subscriptions:
+            case R.id.item_my_orders:
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fContainer, new MySubscriptionsFragment()).commit();
+                        .replace(R.id.fContainer, new MyOrdersFragment()).commit();
                 break;
         }
     }

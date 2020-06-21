@@ -17,7 +17,7 @@ import com.example.mealdelivery.R;
 
 import java.util.ArrayList;
 
-public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionViewHolder> {
+public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsViewHolder> {
 
     private final String TAG = "DEBUG_SUBSCRIPTIONS_ADAPTER";
     private ArrayList<Subscription> subscriptions;
@@ -30,7 +30,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionViewH
 
     @NonNull
     @Override
-    public SubscriptionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SubscriptionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -38,13 +38,13 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionViewH
         View subscriptionRowView = inflater.inflate(R.layout.rv_layout_subscriptions, parent, false);
 
         // Return the view holder
-        SubscriptionViewHolder holder = new SubscriptionViewHolder(subscriptionRowView, listenerInterface);
+        SubscriptionsViewHolder holder = new SubscriptionsViewHolder(subscriptionRowView, listenerInterface);
         return holder;
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull SubscriptionViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SubscriptionsViewHolder holder, int position) {
         //get item from list
         Subscription subscription = subscriptions.get(position);
 

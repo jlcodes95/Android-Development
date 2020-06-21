@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".Fragments.SubscribeFragment">
+    tools:context=".Fragments.MyOrdersFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSubscriptionsList"
+            android:id="@+id/rvMyOrders"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

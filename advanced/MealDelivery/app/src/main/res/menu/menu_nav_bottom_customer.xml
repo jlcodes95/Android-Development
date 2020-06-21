@@ -8,9 +8,9 @@
         android:title="Subscribe"/>
 
     <item
-        android:id="@+id/item_my_subscriptions"
+        android:id="@+id/item_my_orders"
         android:enabled="true"
         android:icon="@drawable/icon_list"
-        android:title="My Subscriptions"/>
+        android:title="My Orders"/>
 
 </menu>

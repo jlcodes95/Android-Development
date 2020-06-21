@@ -1,9 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/layoutOrderSummary"
     tools:context=".Activities.OrderSummaryActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbOrderSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvOrderSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:text="Order Receipt"/>
+
+        <TextView
+            android:id="@+id/tvOrderIdLabel"
+            android:layout_below="@+id/tvOrderSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Order ID:"/>
+
+        <TextView
+            android:id="@+id/tvOrderId"
+            android:layout_below="@+id/tvOrderSummary"
+            android:layout_toRightOf="@+id/tvOrderIdLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="30dp"
+            android:textAlignment="textEnd"
+            android:textStyle="italic|bold"
+            android:text="ABCDE9192"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvItemLabel"
+            android:layout_below="@+id/tvOrderId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Item:"/>
+
+        <TextView
+            android:id="@+id/tvItem"
+            android:layout_below="@+id/tvOrderId"
+            android:layout_toRightOf="@+id/tvItemLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="30dp"
+            android:textAlignment="textEnd"
+            android:text="VALUE PACKAGE"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvSubscriptionTypeLabel"
+            android:layout_below="@+id/tvItemLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Subscription Type:"/>
+
+        <TextView
+            android:id="@+id/tvSubscriptionType"
+            android:layout_below="@+id/tvItemLabel"
+            android:layout_toRightOf="@+id/tvSubscriptionTypeLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="30dp"
+            android:textAlignment="textEnd"
+            android:text="Semi-annually"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvPriceLabel"
+            android:layout_below="@+id/tvSubscriptionTypeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Price:"/>
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_below="@+id/tvSubscriptionType"
+            android:layout_toRightOf="@+id/tvPriceLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="30dp"
+            android:textAlignment="textEnd"
+            android:text="$3600.00"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvTaxLabel"
+            android:layout_below="@+id/tvPriceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Tax (13%):"/>
+
+        <TextView
+            android:id="@+id/tvTax"
+            android:layout_below="@+id/tvPrice"
+            android:layout_toRightOf="@+id/tvTaxLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="30dp"
+            android:textAlignment="textEnd"
+            android:text="$400"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvTotalLabel"
+            android:layout_below="@+id/tvTaxLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Total:"/>
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_below="@+id/tvTax"
+            android:layout_toRightOf="@+id/tvTotalLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="30dp"
+            android:textAlignment="textEnd"
+            android:text="$4000.00"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvFooter"
+            android:layout_below="@+id/tvTotalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textStyle="italic"
+            android:textSize="12sp"
+            android:text="ORDER WILL BE AVAILABLE...."/>
+
+        <Button
+            android:id="@+id/btnBottom"
+            android:layout_alignParentBottom="true"
+            android:onClick="onBottomButtonPressed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorPrimary"
+            android:text="Close" />
+
+    </RelativeLayout>
+
+</LinearLayout>

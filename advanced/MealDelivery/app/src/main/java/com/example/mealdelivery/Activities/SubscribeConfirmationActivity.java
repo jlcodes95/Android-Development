@@ -14,11 +14,16 @@ import com.example.mealdelivery.Data.Order;
 import com.example.mealdelivery.Data.Subscription;
 import com.example.mealdelivery.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class SubscribeConfirmationActivity extends AppCompatActivity {
 
@@ -59,7 +64,7 @@ public class SubscribeConfirmationActivity extends AppCompatActivity {
     }
 
     public void onPlaceOrderPressed(View view) {
-        //@TODO: place order and store in db
+        this.pendingOrder.setDefaultnextPickupTimestamp();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("orders")
                 .add(pendingOrder)
@@ -70,10 +75,6 @@ public class SubscribeConfirmationActivity extends AppCompatActivity {
                         Intent intent = new Intent(SubscribeConfirmationActivity.this, OrderSummaryActivity.class);
                         intent.putExtra("confirmedOrder", pendingOrder);
                         startActivity(intent);
-//                        final Intent intent = new Intent(SubscribeConfirmationActivity.this, DashboardActivity.class);
-//                        //clears the stack
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        startActivity(intent);
                     }
                 });
     }

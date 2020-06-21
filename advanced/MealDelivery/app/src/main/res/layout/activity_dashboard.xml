@@ -19,7 +19,7 @@
         android:layout_below="@id/tbDashboard"
         android:layout_above="@id/nav_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"/>z
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_bottom"
