@@ -64,7 +64,7 @@ public class SubscribeConfirmationActivity extends AppCompatActivity {
     }
 
     public void onPlaceOrderPressed(View view) {
-        this.pendingOrder.setDefaultnextPickupTimestamp();
+        this.pendingOrder.setDefaultDates();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("orders")
                 .add(pendingOrder)

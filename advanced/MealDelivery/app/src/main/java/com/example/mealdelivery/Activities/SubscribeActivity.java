@@ -85,7 +85,6 @@ public class SubscribeActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        //@TODO: load data into UI
         //monthly
         ((TextView) findViewById(R.id.tvMonthPrice)).setText(this.subscription.getTotalDesc(Subscription.COUNT_SUBSCRIPTION_MONTH) + " paid monthly");
         ((TextView) findViewById(R.id.tvMonthMealPrice)).setText(this.subscription.getPlanDesc(Subscription.COUNT_SUBSCRIPTION_MONTH));

@@ -4,6 +4,7 @@ package com.example.mealdelivery.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 public class MyOrdersFragment extends Fragment implements IOnRowClickedListener {
 
     private final String TAG = "DEBUG_FRAG_MYORDERS";
+    private final int ORDER_SUMMARY_CODE = 55;
 
     private View view;
     private RecyclerView rvMyOrders;
@@ -92,7 +94,12 @@ public class MyOrdersFragment extends Fragment implements IOnRowClickedListener 
         Intent intent = new Intent(getContext(), OrderSummaryActivity.class);
         intent.putExtra("details", true);
         intent.putExtra("confirmedOrder", this.orders.get(position));
-        startActivity(intent);
+        startActivityForResult(intent, ORDER_SUMMARY_CODE);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        fetchData();
+    }
 }

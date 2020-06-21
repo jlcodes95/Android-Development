@@ -284,19 +284,6 @@ public class EditSubscriptionActivity extends AppCompatActivity {
                 Uri photoURI = data.getData();
                 uploadFile(data.getData());
                 Log.d(TAG, "Path to the photo the user selected: " + photoURI.toString());
-//                try {
-//                    Bitmap selectedPhoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI);
-//
-//                    // make the image fit into the imageview
-////                    this.ivSelfie.setImageBitmap(selectedPhoto);
-////                    this.btnSend.setVisibility(View.VISIBLE);
-//                } catch (FileNotFoundException e) {
-//                    Log.d(TAG, "FileNotFoundException: Unable to open photo gallery file");
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    Log.d(TAG, "IOException: Unable to open photo gallery file");
-//                    e.printStackTrace();
-//                }
             }
         }
     }

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mealdelivery.Data.Order;
+import com.example.mealdelivery.Data.OrderStatus;
 import com.example.mealdelivery.Data.ParkingSlot;
 import com.example.mealdelivery.Data.Subscription;
 import com.example.mealdelivery.R;
@@ -41,6 +43,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -57,11 +61,14 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private boolean locationPermissionGranted;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_summary);
+
+        db = FirebaseFirestore.getInstance();
 
         try {
             Intent intent = getIntent();
@@ -89,7 +96,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
             if (getLocation() <= MIN_DISTANCE) {
                 showParkingDialog();
             }else {
-                //TODO: ALERT NOT IN RANGE
+                showNotInRangeDialog();
             }
         }
     }
@@ -122,11 +129,11 @@ public class OrderSummaryActivity extends AppCompatActivity {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                String message = String.format(
-                        "New Location \n Longitude: %1$s \n Latitude: %2$s",
-                        location.getLongitude(), location.getLatitude()
-                );
-                Log.d(TAG, message);
+//                String message = String.format(
+//                        "New Location \n Longitude: %1$s \n Latitude: %2$s",
+//                        location.getLongitude(), location.getLatitude()
+//                );
+//                Log.d(TAG, message);
             }
 
             @Override
@@ -144,12 +151,57 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
             }
         };
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            }else {
+                boolean showReason = shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION);
+                if (showReason) {
+                    showPermissionPopupRationale();
+                }else {
+                    Toast.makeText(this, "DENIED: Failed to request location", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private void showPermissionPopupRationale() {
+        AlertDialog.Builder popup = new AlertDialog.Builder(this);
+        popup.setTitle("Location Permission Required")
+                .setMessage("Location permission is required to perform curb-side pickup.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    }
+                })
+                .setNegativeButton("NO", null);
+        popup.show();
     }
 
     private float getLocation() {
-        //TODO: PERMISSION FOR LOCATION...
-        Location location= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = null;
+        //ask for permission to make phone call
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            location= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            //show rationale before request
+            showPermissionPopupRationale();
+        } else {
+            // Show the default Android permissions popup box
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+
         // now get the lat/lon from the location and do something with it.
         Log.d(TAG, "LOCATION: " + location.toString());
         LatLng store = new LatLng(43.6761, -79.4105);
@@ -169,40 +221,68 @@ public class OrderSummaryActivity extends AppCompatActivity {
         builder.setView(etSlot);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String value = etSlot.getText().toString();
-                if (value.isEmpty()) {
-                    etSlot.setError("WRONG VALUE");
-                }else {
-                    try {
-                        updateParkingSlot(Integer.parseInt(etSlot.getText().toString()));
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                //do nothing
             }
         });
+        final AlertDialog dialog = builder.create();
+        dialog.show();
 
-        builder.show();
+        //prevents dialog from disappearing after click
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean closeDialog = false;
+                        String value = etSlot.getText().toString();
+                        if (value.isEmpty()) {
+                            etSlot.setError("WRONG VALUE");
+                        }else {
+                            try {
+                                int number = Integer.parseInt(etSlot.getText().toString());
+                                if (number != ParkingSlot.SLOT_1 && number != ParkingSlot.SLOT_2 && number != ParkingSlot.SLOT_3) {
+                                    etSlot.setError("Please only enter 1, 2, or 3");
+                                }else {
+                                    dialog.dismiss();
+                                    updateParkingSlot(number);
+                                }
+                            }catch (Exception e) {
+                                e.printStackTrace();
+                                etSlot.setError("Please only enter 1, 2, or 3");
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void showNotInRangeDialog() {
+        AlertDialog.Builder popup = new AlertDialog.Builder(this);
+        popup.setTitle("Failed to checkin")
+                .setMessage("You are not within 100m of the store, check in again when you are within 100m.")
+                .setPositiveButton("OK", null);
+        popup.show();
     }
 
     private void updateParkingSlot(final int slot) {
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        confirmedOrder.setOrderStatus(OrderStatus.WAITING_AT_PARKING);
+        confirmedOrder.setNextPickupTime();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Log.d(TAG, "user displayname: " + user.getDisplayName());
+        final ParkingSlot parkingSlot = new ParkingSlot(user.getDisplayName(), confirmedOrder, slot);
+
         db.collection("parkingSlot")
-                .whereEqualTo("slot", ""+slot)
+                .whereEqualTo("slot", slot)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        ParkingSlot parkingSlot = new ParkingSlot(confirmedOrder, slot);
+
                         if (queryDocumentSnapshots.size() == 0) {
                             db.collection("parkingSlot")
                                     .add(parkingSlot)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
                                         public void onSuccess(DocumentReference documentReference) {
-                                            //TODO: updateSTATUS IN ORDER
-                                            Toast.makeText(OrderSummaryActivity.this, "COMPLETE", Toast.LENGTH_LONG);
-                                            finish();
+                                            updateOrderStatusToParking();
                                         }
                                     });
                         }else {
@@ -212,8 +292,30 @@ public class OrderSummaryActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            //TODO: updateSTATUS IN ORDER
+                                            updateOrderStatusToParking();
+                                        }
+                                    });
+                        }
+                    }
+                });
+    }
+
+    private void updateOrderStatusToParking() {
+        db.collection("orders")
+                .whereEqualTo("orderId", confirmedOrder.getOrderId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots.size() > 0) {
+                            db.collection("orders")
+                                    .document(queryDocumentSnapshots.getDocuments().get(0).getId())
+                                    .set(confirmedOrder)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
                                             Toast.makeText(OrderSummaryActivity.this, "COMPLETE", Toast.LENGTH_LONG);
+                                            setResult(RESULT_OK);
                                             finish();
                                         }
                                     });

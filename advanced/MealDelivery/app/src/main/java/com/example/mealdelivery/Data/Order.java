@@ -7,7 +7,9 @@ import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -26,6 +28,8 @@ public class Order implements Serializable {
     private double tax;
     private double total;
     private OrderStatus orderStatus;
+    private boolean isFirstPickup;
+    private long orderDate;
     private long nextPickupTimestamp;
 
     public Order(){}
@@ -38,6 +42,7 @@ public class Order implements Serializable {
         this.tax = calculateTax();
         this.total = calculateTotal();
         this.orderStatus = OrderStatus.IN_PREPARATION;
+        this.isFirstPickup = true;
     }
 
     public String getOrderId() {
@@ -96,6 +101,14 @@ public class Order implements Serializable {
         this.orderStatus = orderStatus;
     }
 
+    public long getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(long orderDate) {
+        this.orderDate = orderDate;
+    }
+
     public long getNextPickupTimestamp() {
         return nextPickupTimestamp;
     }
@@ -116,6 +129,9 @@ public class Order implements Serializable {
     }
 
     private double calculateSubtotal() {
+        if (this.subscriptionType == Subscription.COUNT_SUBSCRIPTION_MONTH) {
+            return this.subscription.getPrice();
+        }
         return (this.subscription.getPrice() * this.subscriptionType) - this.subscription.getDiscount();
     }
 
@@ -139,8 +155,10 @@ public class Order implements Serializable {
         return "$" + df.format(this.total);
     }
 
-    public void setDefaultnextPickupTimestamp() {
-        this.nextPickupTimestamp = LocalDateTime.now().plus(1, ChronoUnit.WEEKS).toEpochSecond(ZoneOffset.UTC);
+    public void setDefaultDates() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        this.orderDate = dateTime.toEpochSecond(ZoneOffset.UTC);
+        this.nextPickupTimestamp = dateTime.plus(1, ChronoUnit.WEEKS).toEpochSecond(ZoneOffset.UTC);
     }
 
     public String getPickupDateString() {
@@ -151,5 +169,16 @@ public class Order implements Serializable {
 
     public boolean pickupAvailable() {
         return LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) >= this.nextPickupTimestamp;
+    }
+
+    public void setNextPickupTime() {
+        if (this.isFirstPickup) {
+            LocalDateTime date =
+                    LocalDateTime.ofInstant(Instant.ofEpochMilli(this.orderDate), ZoneOffset.UTC);
+            this.nextPickupTimestamp = date.plus(this.subscriptionType, ChronoUnit.MONTHS).toEpochSecond(ZoneOffset.UTC);
+            this.isFirstPickup = false;
+        }else {
+            this.nextPickupTimestamp = LocalDateTime.now().plus(this.subscriptionType, ChronoUnit.MONTHS).toEpochSecond(ZoneOffset.UTC);
+        }
     }
 }

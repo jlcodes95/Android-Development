@@ -99,7 +99,6 @@
                 android:src="@drawable/icon_plus"
                 android:scaleType="centerCrop"
                 android:background="@color/colorPrimary"
-                android:tint="@color/colorPrimaryDark"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/tvPhoto"/>
 
