@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
@@ -12,14 +11,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.nfc.FormatException;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,29 +28,30 @@ import com.example.mealdelivery.Data.OrderStatus;
 import com.example.mealdelivery.Data.ParkingSlot;
 import com.example.mealdelivery.Data.Subscription;
 import com.example.mealdelivery.R;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.time.LocalDateTime;
-
 public class OrderSummaryActivity extends AppCompatActivity {
 
     private final String TAG = "DEBUG_ORDERSUMMARY";
     private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1998;
     private final float MIN_DISTANCE = 100;
+
+    private final String ERR_MSG_FAILURE = "Something went wrong, please try again";
+    private final String ERR_MSG_OUT_OF_RANGE = "You are not within 100m of the store, check in again when you are within 100m.";
+    private final String ERR_MSG_CANNOT_PICKUP = "Your meal is not ready yet, please wait until the pickup date.";
+    private final String MSG_PICKUP_READY = "Your next pickup will be ready on: ";
+    private final String ERR_MSG_LOCATION_DENIED = "DENIED: Failed to request location";
+    private final String MSG_LOCATION_REQUEST = "Location Permission Required";
+    private final String MSG_LOCATION_RATIONALE = "Location permission is required to perform curb-side pickup.";
+    private final String MSG_PARKING_TITLE = "Select parking spot";
+    private final String MSG_PARKING_SPOTS = "Please enter 1, 2, or 3";
+
     private Order confirmedOrder;
     private boolean details;
     private boolean locationPermissionGranted;
@@ -81,7 +77,8 @@ public class OrderSummaryActivity extends AppCompatActivity {
             }
             loadData();
         }catch (Exception e){
-            Toast.makeText(this, "Something went wrong, please try again", Toast.LENGTH_LONG);
+            e.printStackTrace();
+            Toast.makeText(this, ERR_MSG_FAILURE, Toast.LENGTH_LONG);
             finish();
         }
     }
@@ -93,11 +90,24 @@ public class OrderSummaryActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }else {
+            try {
+                handleParking();
+            }catch (Exception e) {
+                Log.d(TAG, "No permission granted ");
+            }
+        }
+    }
+
+    private void handleParking() throws Exception{
+        if (confirmedOrder.pickupAvailable()) {
             if (getLocation() <= MIN_DISTANCE) {
                 showParkingDialog();
             }else {
-                showNotInRangeDialog();
+                showCannotPickupDialog(ERR_MSG_OUT_OF_RANGE);
             }
+        } else {
+            showCannotPickupDialog(ERR_MSG_CANNOT_PICKUP);
+
         }
     }
 
@@ -121,7 +131,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tvPrice)).setText(this.confirmedOrder.getSubtotalDesc());
         ((TextView) findViewById(R.id.tvTax)).setText(this.confirmedOrder.getTaxDesc());
         ((TextView) findViewById(R.id.tvTotal)).setText(this.confirmedOrder.getTotalDesc());
-        ((TextView) findViewById(R.id.tvFooter)).setText("Your next pickup will be ready on: " + this.confirmedOrder.getPickupDateString());
+        ((TextView) findViewById(R.id.tvFooter)).setText(MSG_PICKUP_READY + this.confirmedOrder.getPickupDateString());
     }
 
     private void setUpLocationManager() {
@@ -158,13 +168,17 @@ public class OrderSummaryActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLocation();
+                try {
+                    handleParking();
+                }catch (Exception e) {
+                    Log.d(TAG, "No permission granted ");
+                }
             }else {
                 boolean showReason = shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION);
                 if (showReason) {
                     showPermissionPopupRationale();
                 }else {
-                    Toast.makeText(this, "DENIED: Failed to request location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ERR_MSG_LOCATION_DENIED, Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -172,8 +186,8 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
     private void showPermissionPopupRationale() {
         AlertDialog.Builder popup = new AlertDialog.Builder(this);
-        popup.setTitle("Location Permission Required")
-                .setMessage("Location permission is required to perform curb-side pickup.")
+        popup.setTitle(MSG_LOCATION_REQUEST)
+                .setMessage(MSG_LOCATION_RATIONALE)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -185,14 +199,21 @@ public class OrderSummaryActivity extends AppCompatActivity {
         popup.show();
     }
 
-    private float getLocation() {
-        Location location = null;
+    private float getLocation() throws Exception {
+        float[] results = new float[1];
+
         //ask for permission to make phone call
         if (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            location= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            // now get the lat/lon from the location and do something with it.
+            Log.d(TAG, "LOCATION: " + location.toString());
+            LatLng store = new LatLng(43.6761, -79.4105);
+            Location.distanceBetween(location.getLatitude(), location.getLongitude(), store.latitude, store.longitude, results);
+            Log.d(TAG, "distance between here and GBC is: " + results[0] + " meters");
+            return results[0];
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
             //show rationale before request
             showPermissionPopupRationale();
@@ -202,13 +223,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
 
-        // now get the lat/lon from the location and do something with it.
-        Log.d(TAG, "LOCATION: " + location.toString());
-        LatLng store = new LatLng(43.6761, -79.4105);
-        float[] results = new float[1];
-        Location.distanceBetween(location.getLatitude(), location.getLongitude(), store.latitude, store.longitude, results);
-        Log.d(TAG, "distance between here and GBC is: " + results[0] + " meters");
-        return results[0];
+        throw new Exception("no permission granted");
     }
 
     private void showParkingDialog() {
@@ -216,8 +231,8 @@ public class OrderSummaryActivity extends AppCompatActivity {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         etSlot.setLayoutParams(layoutParams);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select parking spot");
-        builder.setMessage("Please enter 1, 2 or 3");
+        builder.setTitle(MSG_PARKING_TITLE);
+        builder.setMessage(MSG_PARKING_SPOTS);
         builder.setView(etSlot);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -235,29 +250,29 @@ public class OrderSummaryActivity extends AppCompatActivity {
                         boolean closeDialog = false;
                         String value = etSlot.getText().toString();
                         if (value.isEmpty()) {
-                            etSlot.setError("WRONG VALUE");
+                            etSlot.setError(MSG_PARKING_SPOTS);
                         }else {
                             try {
                                 int number = Integer.parseInt(etSlot.getText().toString());
                                 if (number != ParkingSlot.SLOT_1 && number != ParkingSlot.SLOT_2 && number != ParkingSlot.SLOT_3) {
-                                    etSlot.setError("Please only enter 1, 2, or 3");
+                                    etSlot.setError(MSG_PARKING_SPOTS);
                                 }else {
                                     dialog.dismiss();
                                     updateParkingSlot(number);
                                 }
                             }catch (Exception e) {
                                 e.printStackTrace();
-                                etSlot.setError("Please only enter 1, 2, or 3");
+                                etSlot.setError(MSG_PARKING_SPOTS);
                             }
                         }
                     }
                 });
     }
 
-    private void showNotInRangeDialog() {
+    private void showCannotPickupDialog(String message) {
         AlertDialog.Builder popup = new AlertDialog.Builder(this);
         popup.setTitle("Failed to checkin")
-                .setMessage("You are not within 100m of the store, check in again when you are within 100m.")
+                .setMessage(message)
                 .setPositiveButton("OK", null);
         popup.show();
     }

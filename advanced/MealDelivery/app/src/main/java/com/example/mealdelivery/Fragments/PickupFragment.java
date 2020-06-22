@@ -23,6 +23,10 @@ import com.google.firebase.firestore.QuerySnapshot;
  */
 public class PickupFragment extends Fragment {
 
+    private final String LABEL_PARKING_1 = "Parking Slot 1";
+    private final String LABEL_PARKING_2 = "Parking Slot 2";
+    private final String LABEL_PARKING_3 = "Parking Slot 3";
+    private final String LABEL_PARKING_STATUS_VACANT = "VACANT";
     View view;
 
     public PickupFragment() {
@@ -44,22 +48,22 @@ public class PickupFragment extends Fragment {
 
     private void setFirstParkingSlot() {
         LinearLayout linearLayout = view.findViewById(R.id.layoutParking1);
-        ((TextView)linearLayout.findViewById(R.id.tvParkingSlot)).setText("Parking Slot 1");
-        ((TextView)linearLayout.findViewById(R.id.tvName)).setText("VACANT");
+        ((TextView)linearLayout.findViewById(R.id.tvParkingSlot)).setText(LABEL_PARKING_1);
+        ((TextView)linearLayout.findViewById(R.id.tvName)).setText(LABEL_PARKING_STATUS_VACANT);
         ((TextView)linearLayout.findViewById(R.id.tvOrderId)).setText("");
     }
 
     private void setSecondParkingSlot() {
         LinearLayout linearLayout = view.findViewById(R.id.layoutParking2);
-        ((TextView)linearLayout.findViewById(R.id.tvParkingSlot)).setText("Parking Slot 2");
-        ((TextView)linearLayout.findViewById(R.id.tvName)).setText("VACANT");
+        ((TextView)linearLayout.findViewById(R.id.tvParkingSlot)).setText(LABEL_PARKING_2);
+        ((TextView)linearLayout.findViewById(R.id.tvName)).setText(LABEL_PARKING_STATUS_VACANT);
         ((TextView)linearLayout.findViewById(R.id.tvOrderId)).setText("");
     }
 
     private void setThirdParkingSlot() {
         LinearLayout linearLayout = view.findViewById(R.id.layoutParking3);
-        ((TextView)linearLayout.findViewById(R.id.tvParkingSlot)).setText("Parking Slot 3");
-        ((TextView)linearLayout.findViewById(R.id.tvName)).setText("VACANT");
+        ((TextView)linearLayout.findViewById(R.id.tvParkingSlot)).setText(LABEL_PARKING_3);
+        ((TextView)linearLayout.findViewById(R.id.tvName)).setText(LABEL_PARKING_STATUS_VACANT);
         ((TextView)linearLayout.findViewById(R.id.tvOrderId)).setText("");
     }
 

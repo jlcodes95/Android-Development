@@ -98,6 +98,11 @@ public class DashboardActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG, "backbutton disabled");
+    }
+
     /**
      * details page menu item selection
      * @param item

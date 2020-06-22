@@ -19,7 +19,6 @@ import java.util.Random;
 public class Order implements Serializable {
 
     private final int DEFAULT_ORDER_ID_LENGTH = 10;
-    private final DecimalFormat df = new DecimalFormat("0.00");
     private final double TAX_RATE = 0.13;
     private String orderId;
     private String orderedBy;
@@ -148,10 +147,12 @@ public class Order implements Serializable {
     }
 
     public String getTaxDesc() {
+        DecimalFormat df = new DecimalFormat("0.00");
         return "$" + df.format(this.tax);
     }
 
     public String getTotalDesc() {
+        DecimalFormat df = new DecimalFormat("0.00");
         return "$" + df.format(this.total);
     }
 

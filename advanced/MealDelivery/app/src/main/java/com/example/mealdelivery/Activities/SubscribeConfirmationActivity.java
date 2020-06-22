@@ -28,6 +28,10 @@ import java.time.temporal.ChronoUnit;
 public class SubscribeConfirmationActivity extends AppCompatActivity {
 
     private final String TAG = "DEBUG_SUBSCRIBE";
+    private final String ERR_MSG_FAILED = "Something went wrong, please try again";
+    private final String LABEL_SA = "Semi-annual";
+    private final String LABEL_MONTHLY = "Monthly";
+    private final String SUCC_MSG_ORDER_PLACED = "Order successfully placed";
 
     private Order pendingOrder;
 
@@ -50,14 +54,14 @@ public class SubscribeConfirmationActivity extends AppCompatActivity {
             this.pendingOrder = (Order) getIntent().getSerializableExtra("pendingOrder");
             loadData();
         }catch (Exception e){
-            Toast.makeText(this, "Something went wrong, please try again", Toast.LENGTH_LONG);
+            Toast.makeText(this, ERR_MSG_FAILED, Toast.LENGTH_LONG);
             finish();
         }
     }
 
     private void loadData() {
         ((TextView) findViewById(R.id.tvItem)).setText(this.pendingOrder.getSubscription().getName());
-        ((TextView) findViewById(R.id.tvSubscriptionType)).setText(this.pendingOrder.getSubscriptionType() == Subscription.COUNT_SUBSCRIPTION_SEMI_ANNUAL ? "Semi-annual" : "Monthly");
+        ((TextView) findViewById(R.id.tvSubscriptionType)).setText(this.pendingOrder.getSubscriptionType() == Subscription.COUNT_SUBSCRIPTION_SEMI_ANNUAL ? LABEL_SA : LABEL_MONTHLY);
         ((TextView) findViewById(R.id.tvPrice)).setText(this.pendingOrder.getSubtotalDesc());
         ((TextView) findViewById(R.id.tvTax)).setText(this.pendingOrder.getTaxDesc());
         ((TextView) findViewById(R.id.tvTotal)).setText(this.pendingOrder.getTotalDesc());
@@ -71,7 +75,7 @@ public class SubscribeConfirmationActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(SubscribeConfirmationActivity.this, "Order successfully placed", Toast.LENGTH_LONG);
+                        Toast.makeText(SubscribeConfirmationActivity.this, SUCC_MSG_ORDER_PLACED, Toast.LENGTH_LONG);
                         Intent intent = new Intent(SubscribeConfirmationActivity.this, OrderSummaryActivity.class);
                         intent.putExtra("confirmedOrder", pendingOrder);
                         startActivity(intent);

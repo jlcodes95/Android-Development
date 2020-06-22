@@ -29,7 +29,7 @@
             android:layout_centerHorizontal="true"
             android:textStyle="bold"
             android:textSize="30sp"
-            android:text="Order Receipt"/>
+            android:text="Order Summary"/>
 
         <TextView
             android:id="@+id/tvOrderIdLabel"

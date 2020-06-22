@@ -48,6 +48,19 @@ public class EditSubscriptionActivity extends AppCompatActivity {
     private final int GET_PHOTO_FROM_GALLERY_REQUEST_CODE = 14;
     private final int TAKE_PHOTO_ACTIVITY_REQUEST_CODE = 21;
 
+    private final String ERR_MSG_NAME = "Please enter a name";
+    private final String ERR_MSG_PRICE = "Please enter a price";
+    private final String ERR_MSG_DISCOUNT = "Please enter a discount for semi-annual subscription";
+    private final String ERR_MSG_DESCRIPTION = "Please enter a description";
+    private final String ERR_MSG_PHOTO = "Please choose a photo to represent meal kit";
+    private final String ERR_MSG_SAMPLE_PHOTO = "Please choose at least one sample meal photo";
+    private final String ERR_MSG_NUMBER_FORMAT = "Please make sure the price and the discounts are valid numbers";
+    private final String MSG_SUCC_ADD = "Successfully added subscription";
+    private final String MSG_SUCC_UPDATE = "Successfully updated subscription";
+    private final String MSG_FAILED_PHOTO = "Failed to take photo";
+    private final String MSG_FAILED_FILE = "Failed to upload file";
+
+
     private EditText etName;
     private EditText etPrice;
     private EditText etDiscount;
@@ -136,17 +149,17 @@ public class EditSubscriptionActivity extends AppCompatActivity {
         String description = etDescription.getText().toString();
 
         if (name.isEmpty()) {
-            etName.setError("Please enter a name");
+            etName.setError(ERR_MSG_NAME);
         }else if (price.isEmpty()) {
-            etPrice.setError("Please enter a price");
+            etPrice.setError(ERR_MSG_PRICE);
         }else if (discount.isEmpty()) {
-            etDiscount.setError("Please enter a discount for semi-annual subscription");
+            etDiscount.setError(ERR_MSG_DISCOUNT);
         }else if (description.isEmpty()) {
-            etDescription.setError("Please enter a description");
+            etDescription.setError(ERR_MSG_DESCRIPTION);
         }else if (photoUrl == null) {
-            Toast.makeText(this, "Please choose a photo to represent meal kit", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, ERR_MSG_PHOTO, Toast.LENGTH_LONG).show();
         }else if (samplePhotoUrls.size() == 0) {
-            Toast.makeText(this, "Please choose at least one sample meal photo", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, ERR_MSG_SAMPLE_PHOTO, Toast.LENGTH_LONG).show();
         }else {
             try {
                 Subscription subscription = new Subscription(name,
@@ -162,7 +175,8 @@ public class EditSubscriptionActivity extends AppCompatActivity {
                     updateSubscription(subscription);
                 }
             }catch (NumberFormatException e) {
-                etPrice.setError("Please make sure the price and the discounts are valid numbers");
+                etPrice.setError(ERR_MSG_NUMBER_FORMAT);
+                etDiscount.setError(ERR_MSG_NUMBER_FORMAT);
             }
         }
     }
@@ -174,7 +188,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(EditSubscriptionActivity.this, "Successfully added subscription", Toast.LENGTH_LONG).show();
+                            Toast.makeText(EditSubscriptionActivity.this, MSG_SUCC_ADD, Toast.LENGTH_LONG).show();
                             setResult(RESULT_OK);
                             finish();
                         }
@@ -189,7 +203,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(EditSubscriptionActivity.this, "Successfully updated subscription", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditSubscriptionActivity.this, MSG_SUCC_UPDATE, Toast.LENGTH_LONG).show();
                         setResult(RESULT_OK);
                         finish();
                     }
@@ -272,7 +286,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
                 Log.d(TAG, photoFile.getAbsolutePath());
                 uploadFile(Uri.fromFile(photoFile));
             } else {
-                Toast t = Toast.makeText(this, "Not able to take photo", Toast.LENGTH_SHORT);
+                Toast t = Toast.makeText(this, MSG_FAILED_PHOTO, Toast.LENGTH_SHORT);
                 t.show();
             }
         }
@@ -331,7 +345,7 @@ public class EditSubscriptionActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception exception) {
                         // Handle unsuccessful uploads
                         // ...
-                        Toast.makeText(EditSubscriptionActivity.this, "Failed to upload file.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditSubscriptionActivity.this, MSG_FAILED_FILE, Toast.LENGTH_LONG).show();
                     }
                 });
     }

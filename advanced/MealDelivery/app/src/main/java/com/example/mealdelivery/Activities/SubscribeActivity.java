@@ -23,6 +23,9 @@ import com.google.firebase.auth.FirebaseUser;
 public class SubscribeActivity extends AppCompatActivity {
 
     private final String TAG = "DEBUG_SUBSCRIBE";
+    private final String ERR_MSG_FAILED = "Something went wrong, please try again";
+    private final String LABEL_SELECT = "SELECT";
+    private final String LABEL_SELECTED = "SELECTED";
 
     private LinearLayout layoutMonthly;
     private LinearLayout layoutSA;
@@ -53,7 +56,7 @@ public class SubscribeActivity extends AppCompatActivity {
             this.subscription = (Subscription) getIntent().getSerializableExtra("subscription");
             loadData();
         }catch (Exception e){
-            Toast.makeText(this, "Something went wrong, please try again", Toast.LENGTH_LONG);
+            Toast.makeText(this, ERR_MSG_FAILED, Toast.LENGTH_LONG);
             finish();
         }
     }
@@ -61,8 +64,8 @@ public class SubscribeActivity extends AppCompatActivity {
     public void onMonthlySelected(View view) {
         Log.d(TAG, "onMonthlySelected");
         this.subscriptionType = Subscription.COUNT_SUBSCRIPTION_MONTH;
-        ((TextView) findViewById(R.id.tvMonthSelect)).setText("SELECTED");
-        ((TextView) findViewById(R.id.tvSASelect)).setText("SELECT");
+        ((TextView) findViewById(R.id.tvMonthSelect)).setText(LABEL_SELECTED);
+        ((TextView) findViewById(R.id.tvSASelect)).setText(LABEL_SELECT);
         layoutMonthly.setBackgroundResource(R.color.colorAccent);
         layoutSA.setBackgroundColor(Color.WHITE);
     }
@@ -70,8 +73,8 @@ public class SubscribeActivity extends AppCompatActivity {
     public void onSASelected(View view) {
         Log.d(TAG, "onSASelected");
         this.subscriptionType = Subscription.COUNT_SUBSCRIPTION_SEMI_ANNUAL;
-        ((TextView) findViewById(R.id.tvMonthSelect)).setText("SELECT");
-        ((TextView) findViewById(R.id.tvSASelect)).setText("SELECTED");
+        ((TextView) findViewById(R.id.tvMonthSelect)).setText(LABEL_SELECT);
+        ((TextView) findViewById(R.id.tvSASelect)).setText(LABEL_SELECTED);
         layoutSA.setBackgroundResource(R.color.colorAccent);
         layoutMonthly.setBackgroundColor(Color.WHITE);
     }

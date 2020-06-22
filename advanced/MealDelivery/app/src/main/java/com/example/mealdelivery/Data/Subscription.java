@@ -17,7 +17,6 @@ public class Subscription implements Serializable {
     private String description;
     private String photoUrl;
     private ArrayList<String> samplePhotoUrls;
-    private static DecimalFormat df = new DecimalFormat("0.00");
 
     public Subscription() {}
 
@@ -98,10 +97,12 @@ public class Subscription implements Serializable {
     }
 
     public String getPerMealPriceDesc(int months) {
+        DecimalFormat df = new DecimalFormat("0.00");
         return "$" + df.format(getPerMealPrice(months)) + " per meal";
     }
 
     public String getTotalDesc(int months) {
+        DecimalFormat df = new DecimalFormat("0.00");
         return "$" + df.format(getTotal(months)) + "";
     }
 
